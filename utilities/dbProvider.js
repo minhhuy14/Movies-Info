@@ -1,4 +1,4 @@
-const { create } = require('domain');
+
 const fs = require('fs/promises');
 
 const pgp = require('pg-promise')({
@@ -28,29 +28,20 @@ const newDB = pgp(new_connect);
 
 module.exports = {
     db,
-    removeDuplicates: function (data) {
-        let jsonObject = data.map(JSON.stringify);
-        let uniqueSet = new Set(jsonObject);
-        let uniqueArray = Array.from(uniqueSet).map(JSON.parse);
-        return uniqueArray;
-    },
-    readDataFromFile: async function (fileName) {
+    // removeDuplicates: function (data) {
+    //     let jsonObject = data.map(JSON.stringify);
+    //     let uniqueSet = new Set(jsonObject);
+    //     let uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+    //     return uniqueArray;
+    // },
+    // readDataFromFile: async function (fileName) {
 
-        let path = `./db/${fileName}.json`;
-        //  console.log(path);
+    //     let path = `./db/${fileName}.json`;
+    //     //  console.log(path);
 
-        try {
-            const data = await fs.readFile(path, { encoding: 'utf8' });
-            // console.log('read data:');
-            // console.log(data.length);
-            return JSON.parse(data);
-        }
-        catch (err) {
-            console.error(err);
-            return null;
-        }
 
-    },
+
+    // },
 
     createTable: async (table_name, columns) => {
         let db_connection = null;
@@ -68,33 +59,141 @@ module.exports = {
         }
     },
 
-    createAndImportDataToDatabase: async function () {
+    createTableAndImportDataToDatabase: async function () {
+        try {
+            const results = await fs.readFile(`./db/${process.env.JSON_FILE}`, { encoding: 'utf8' });
+            // console.log('read data:');
+            // console.log(data.length);
+            let data = JSON.parse(results);
 
-        let movies_columns = `
-        id TEXT PRIMARY KEY,
-        img TEXT,
-        title TEXT,
-        year INT,
-        topRank INT,
-        rating DOUBLE PRECISION,
-        ratingCount DOUBLE PRECISION,
-        genres TEXT []
-    `
+            console.log(data.Movies[0].id);
 
-        await this.createTable('Movies', movies_columns);
+            let movies_columns = `
+            id TEXT PRIMARY KEY,
+            title TEXT,
+            original_title TEXT,
+            full_title TEXT,
+            year INT,
+            image TEXT,
+            release_date DATE,
+            runtime TEXT,
+            plot TEXT,
+            award TEXT,
+            director_list TEXT [],
+            writer_list TEXT [],
+            company TEXT,
+            language TEXT,
+            imdb_rating DOUBLE PRECISION,
+            box_office TEXT,
+            plot_full TEXT,
+            country TEXT,
+            simliar TEXT []
+        `
 
-        const query = 'INSERT INTO Movies(id,img,title,year,topRank,rating,ratingCount,genres) VALUES($1,$2,$3,$4,$5,$6,$7,$8)';
-        const value = [
-            '1',
-            'https://m.media-amazon.com/images/M/MV5BMTYwNjE4MTYxMl5BMl5BanBnXkFtZTYwMTk3MjY3._V1_.jpg',
-            'The Shawshank Redemption',
-            1994,
-            1,
-            9.2,
-            239,
-            ['Drama']
-        ];
-        newDB.none(query, value);
+            await this.createTable('movies', movies_columns);
+
+            let actor_columns = `
+            movie_id TEXT,
+            actor_id TEXT,
+            character TEXT,
+            PRIMARY KEY (movie_id,actor_id,character)
+            `
+            await this.createTable('actors', actor_columns);
+
+            let genres_columns = `
+                movie_id TEXT,
+                genre TEXT,
+                PRIMARY KEY (movie_id,genre)
+            `
+            await this.createTable('genres', genres_columns);
+            
+            for (let i = 0; i < data.Movies.length; i++) {
+                let mv = data.Movies[i];
+                let movie_rating = mv.imdb_rating;
+                if (typeof movie_rating === 'string') {
+                    if (movie_rating == '') {
+                        movie_rating = 0;
+                    }
+                    else {
+                        movie_rating = parseFloat(movie_rating);
+                    }
+                }
+                insertQuery = `INSERT INTO movies values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19) ON CONFLICT DO NOTHING`;
+                values = [
+                    mv.id,
+                    mv.title,
+                    mv.originalTitle,
+                    mv.fullTitle,
+                    mv.year,
+                    mv.image,
+                    mv.releaseDate,
+                    mv.runtimeStr,
+                    mv.plot,
+                    mv.awards,
+                    mv.directorList,
+                    mv.writerList,
+                    mv.companies,
+                    mv.languages,
+                    movie_rating,
+                    mv.boxOffice,
+                    mv.plotFull,
+                    mv.countries,
+                    mv.similars
+                ];
+                // console.log(insertQuery);
+                newDB.none(insertQuery, values)
+                    .then(() => {
+                        // console.log('Insert movies '+i +' successfully');
+                    })
+                    .catch(error => { console.log('Error inserting into movies' + error) });
+
+                   
+        
+                    for (let j = 0; j < mv.actorList.length; j++) {
+                        if (!mv.actorList[j].asCharacter) {
+                            continue;
+                        }
+                        insertQuery = `INSERT INTO actors values ($1,$2,$3) ON CONFLICT DO NOTHING`;
+                        values = [
+                            mv.id,
+                            mv.actorList[j].id,
+                            mv.actorList[j].asCharacter
+        
+                        ];
+                        // console.log(insertQuery);
+                        newDB.none(insertQuery, values)
+                            .then(() => {
+                                // console.log('Insert actors '+j +' successfully');
+                            })
+                            .catch(error => { console.log('Error inserting into actors' + error) });
+                     }   
+
+                     for (let j = 0; j < mv.genreList.length; j++) {
+                        insertQuery = `INSERT INTO genres values ($1,$2) ON CONFLICT DO NOTHING`;
+                        values = [
+                            mv.id,
+                            mv.genreList[j]
+        
+                        ];
+                        // console.log(insertQuery);
+                        newDB.none(insertQuery, values)
+                            .then(() => {
+                                // console.log('Insert actors '+j +' successfully');
+                            })
+                            .catch(error => { console.log('Error inserting into genres' + error) });
+                     }   
+
+
+            }
+
+            
+
+        }
+        catch (err) {
+            console.error(err);
+
+        }
+
 
     },
 
@@ -103,7 +202,7 @@ module.exports = {
 
         try {
             db_connection = await db.connect();
-            console.log(db_connection);
+            // console.log(db_connection);
 
             const checkDatabaseQuery = `SELECT datname FROM pg_database WHERE datname='${process.env.DB_NAME}'`;
 
@@ -118,26 +217,16 @@ module.exports = {
                 db_connection = await newDB.connect();
                 console.log(db_connection);
 
-                let data = await this.readDataFromFile('data');
 
-                await this.createAndImportDataToDatabase();
+                await this.createTableAndImportDataToDatabase();
 
             }
             else {
                 db_connection.done();
-                // const new_connect={
-                //     host:process.env.DB_HOST,
-                //     port:process.env.DB_PORT,
-                //     database:process.env.DB_NAME,
-                //     user:process.env.DB_USER,
-                //     password:process.env.DB_PW,
-                //     max:30
-                // }
-                // const newDB=pgp(new_connect);
 
                 db_connection = await newDB.connect();
-                console.log('case 2');
-                console.log(db_connection);
+                // console.log('case 2');
+                // console.log(db_connection);
                 console.log(`Database ${process.env.DB_NAME} already exists`);
 
 
