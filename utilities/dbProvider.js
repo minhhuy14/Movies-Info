@@ -62,8 +62,6 @@ module.exports = {
     createTableAndImportDataToDatabase: async function () {
         try {
             const results = await fs.readFile(`./db/${process.env.JSON_FILE}`, { encoding: 'utf8' });
-            // console.log('read data:');
-            // console.log(data.length);
             let data = JSON.parse(results);
 
             console.log(data.Movies[0].id);
@@ -106,10 +104,14 @@ module.exports = {
                 PRIMARY KEY (movie_id,genre)
             `
             await this.createTable('genres', genres_columns);
+
             
             for (let i = 0; i < data.Movies.length; i++) {
                 let mv = data.Movies[i];
-                let movie_rating = mv.imdb_rating;
+                let movie_rating = mv.imDbRating;
+                if (movie_rating == null) {
+                    movie_rating = 0;
+                }
                 if (typeof movie_rating === 'string') {
                     if (movie_rating == '') {
                         movie_rating = 0;
@@ -185,9 +187,125 @@ module.exports = {
 
 
             }
+            let names_columns = `
+                id TEXT PRIMARY KEY,
+                name TEXT,
+                role TEXT,
+                image TEXT,
+                summary TEXT,
+                birth_date DATE,
+                death_date DATE,
+                awards TEXT,
+                height TEXT
+            `
+            await this.createTable('names', names_columns);
 
+            let cast_in_movies_columns = `
+                cast_id TEXT,
+                movie_id TEXT,
+                role TEXT,
+                PRIMARY KEY (movie_id,cast_id,role)
+                `
+            await this.createTable('cast_in_movies', cast_in_movies_columns);
+
+            for (let i=0;i<data.Names.length;i++)
+            {
+                let nm = data.Names[i];
+                insertQuery = `INSERT INTO names values ($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT DO NOTHING`;
+                values = [
+                    nm.id,
+                    nm.name,
+                    nm.role,
+                    nm.image,
+                    nm.summary,
+                    nm.birthDate,
+                    nm.deathDate,
+                    nm.awards,
+                    nm.height
+                ];
+                // console.log(insertQuery);
+                newDB.none(insertQuery, values)
+                    .then(() => {
+                        // console.log('Insert names '+i +' successfully');
+                    })
+                    .catch(error => { console.log('Error inserting into names' + error) });
+
+                if (nm.castMovies)
+                {
+                    for (let j=0;j<nm.castMovies.length;j++)
+                    {
+                        insertQuery = `INSERT INTO cast_in_movies values ($1,$2,$3) ON CONFLICT DO NOTHING`;
+                        values = [
+                            nm.id,
+                            nm.castMovies[j].id,
+                            nm.castMovies[j].role
+                        ];
+                        // console.log(insertQuery);
+                        newDB.none(insertQuery, values)
+                            .then(() => {
+                                // console.log('Insert cast_in_movies '+j +' successfully');
+                            })
+                            .catch(error => { console.log('Error inserting into cast_in_movies' + error) });
+                    }
+                }
+                
+            }
+
+            let reviews_columns = `
+                id TEXT,
+                movie_id TEXT,
+                username TEXT,
+                warning_spoiler BOOLEAN,
+                date DATE,
+                user_rating DOUBLE PRECISION,
+                title_review TEXT,
+                text_review TEXT,
+                PRIMARY KEY (id,movie_id)
+            `
+            await this.createTable('reviews', reviews_columns);
+
+            let cnt=1;
+            for (let i=0;i<data.Reviews.length;i++)
+            {
+                let rv = data.Reviews[i];
+                if (rv.items){
+                    for (let j=0;j<rv.items.length;j++)
+                    {
+                        const reviewId = `rv${cnt.toString().padStart(5, '0')}`;
+                        let rating = rv.items[j].rate;
+                        if (rating == null) {
+                            rating = 0;
+                        }
+                        if (typeof rating === 'string') {
+                            if (rating == '') {
+                                rating = 0;
+                            }
+                            else {
+                                rating = parseFloat(rating);
+                            }
+                        }
+                        insertQuery=`INSERT INTO reviews values ($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING`;
+                        values = [
+                            reviewId,
+                            rv.movieId,
+                            rv.items[j].username,
+                            rv.items[j].warningSpoilers,
+                            rv.items[j].date,
+                            rating,
+                            rv.items[j].title,
+                            rv.items[j].content,
+                        ];
+                        cnt++;
+                        newDB.none(insertQuery, values)
+                        .then(() => {
+                            // console.log('Insert reviews '+cnt +' successfully');
+                        })
+                        .catch(error => { console.log('Error inserting into reviews' + error) });
+                    }
+                }
+              
+            }
             
-
         }
         catch (err) {
             console.error(err);
@@ -215,7 +333,7 @@ module.exports = {
 
 
                 db_connection = await newDB.connect();
-                console.log(db_connection);
+                // console.log(db_connection);
 
 
                 await this.createTableAndImportDataToDatabase();
