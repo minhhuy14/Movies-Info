@@ -17,8 +17,6 @@ class MyTemplateEngine {
     }
 
     processTemplate(template, data) {
-        console.log(data);
-
         // Process for loops
         template = template.replace(/21177\{for\s+(.*?)\s+in\s+(.*?)\}([\s\S]*?)\{\/for\}/g, (_, varName, arrayName, loopContent) => {
             const array = data[arrayName.trim()];
