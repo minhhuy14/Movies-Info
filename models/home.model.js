@@ -12,6 +12,16 @@ class QueryMovies{
             throw error;
         }
     }
+    static async getTop15BoxOfficeMovies(){
+        try{
+            let data = await db.queryTop15BoxOfficeMovies();
+            return data;
+        }
+        catch(error){
+            throw error;
+        }
+
+    }
     static async getMovieById(m_id){
         try {
             let data = await db.getMovieInfo(m_id);

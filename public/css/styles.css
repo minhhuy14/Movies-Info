@@ -74,7 +74,8 @@ body{
 }
 
 .top-movies-img{
-   width: 400px;
+    width: 300px;
+    height: 400px;
     margin: 0 auto;
     display: block;
 }

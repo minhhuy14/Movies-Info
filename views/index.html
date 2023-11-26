@@ -19,10 +19,6 @@
     </div>
 </div>
 
-<h1>ZERO 21177{ zero }</h1>
-
-
-
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -82,7 +78,116 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+<div class="popular-movies">
+  <h5>Top Box Office</h5>
+  <div id="popularIndicator" class="carousel slide" style="height: 40%;">
+    <div class="carousel-indicators indicator-style">
+      21177{for group in topboxoffice}
+        21177{if group.tempvalue} 
+      <button key="21177{ group.show_id }" type="button" data-bs-target="#popularIndicator"
+        data-bs-slide-to="21177{ group.show_id }" class="active"></button>
+        {else}
+        <button key="21177{ group.show_id }" type="button" data-bs-target="#popularIndicator"
+        data-bs-slide-to="21177{ group.show_id }"></button>
+        {/if}
+      {/for}
+    </div>
+    <div class="carousel-inner">
+      21177{for group in topboxoffice}
+      <!-- <p>21177{ group.first_movie.id }</p> -->
+        21177{if group.tempvalue} 
+        <div key="index" class="carousel-item active">
 
+        <div class="movie-item-box">
+        <div class="item-movie">
+            <img src="21177{ group.first_movie.image }" class="d-block movies-styles zoom-onhover" alt=""
+           @mouseover="onHover(movie.id)" @mouseleave="onHover(null)">
+            <div class="d-none d-md-block popular-movies-caption">
+                <h5>21177{ group.first_movie.title }</h5>
+                <p>21177{ group.first_movie.year }</p>
+            </div>
+        </div>
+        <div class="item-movie">
+          <img src="21177{ group.second_movie.image }" class="d-block movies-styles zoom-onhover" alt=""
+         @mouseover="onHover(movie.id)" @mouseleave="onHover(null)">
+          <div class="d-none d-md-block popular-movies-caption">
+              <h5>21177{ group.second_movie.title }</h5>
+              <p>21177{ group.second_movie.year }</p>
+          </div>
+      </div>
+      <div class="item-movie">
+        <img src="21177{ group.third_movie.image }" class="d-block movies-styles zoom-onhover" alt=""
+       @mouseover="onHover(movie.id)" @mouseleave="onHover(null)">
+        <div class="d-none d-md-block popular-movies-caption">
+            <h5>21177{ group.third_movie.title }</h5>
+            <p>21177{ group.third_movie.year }</p>
+        </div>
+    </div>
+        </div>
+      </div>
+        {else}
+        <div key="index" class="carousel-item">
+
+          <div class="movie-item-box">
+          <div class="item-movie">
+              <img src="21177{ group.first_movie.image }" class="d-block movies-styles zoom-onhover" alt=""
+             @mouseover="onHover(movie.id)" @mouseleave="onHover(null)">
+              <div class="d-none d-md-block popular-movies-caption">
+                  <h5>21177{ group.first_movie.title }</h5>
+                  <p>21177{ group.first_movie.year }</p>
+              </div>
+          </div>
+          <div class="item-movie">
+            <img src="21177{ group.second_movie.image }" class="d-block movies-styles zoom-onhover" alt=""
+           @mouseover="onHover(movie.id)" @mouseleave="onHover(null)">
+            <div class="d-none d-md-block popular-movies-caption">
+                <h5>21177{ group.second_movie.title }</h5>
+                <p>21177{ group.second_movie.year }</p>
+            </div>
+        </div>
+        <div class="item-movie">
+          <img src="21177{ group.third_movie.image }" class="d-block movies-styles zoom-onhover" alt=""
+         @mouseover="onHover(movie.id)" @mouseleave="onHover(null)">
+          <div class="d-none d-md-block popular-movies-caption">
+              <h5>21177{ group.third_movie.title }</h5>
+              <p>21177{ group.third_movie.year }</p>
+          </div>
+      </div>
+          </div>
+        </div>
+        {/if}
+
+      {/for}
+
+      <!-- <div v-for="(group, index) in chunk(top15PopularMovies, 3)" 
+        :key="index" class="carousel-item"
+        :class="{ active: index === 0 }">
+
+        <div class="movie-item-box">
+        <div v-for="movie in group" class="item-movie">
+            <img :src="movie.image" class="d-block movies-styles zoom-onhover" alt=""
+            @click=showDetailMovie(movie.id) @mouseover="onHover(movie.id)" @mouseleave="onHover(null)">
+            <div class="d-none d-md-block popular-movies-caption" v-if="this.hoveredID==movie.id">
+                <h5>{{ movie.title }}</h5>
+                <p>{{ movie.year }}</p>
+            </div>
+        </div>
+        </div>
+      </div>
+      </div> -->
+      
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#popularIndicator"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#popularIndicator"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+  </div>
 <div class="footer">Copyright @ LeMinhHuy</div>
 
 

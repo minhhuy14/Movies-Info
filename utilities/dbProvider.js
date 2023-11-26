@@ -82,7 +82,7 @@ module.exports = {
             company TEXT,
             language TEXT,
             imdb_rating DOUBLE PRECISION,
-            box_office TEXT,
+            box_office DOUBLE PRECISION,
             plot_full TEXT,
             country TEXT,
             simliar TEXT []
@@ -120,6 +120,9 @@ module.exports = {
                         movie_rating = parseFloat(movie_rating);
                     }
                 }
+
+                let box_office = mv.boxOffice;
+                let box_office_number = this.convertToNumber(box_office);
                 insertQuery = `INSERT INTO movies values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19) ON CONFLICT DO NOTHING`;
                 values = [
                     mv.id,
@@ -137,7 +140,7 @@ module.exports = {
                     mv.companies,
                     mv.languages,
                     movie_rating,
-                    mv.boxOffice,
+                    box_office_number,
                     mv.plotFull,
                     mv.countries,
                     mv.similars
@@ -332,6 +335,8 @@ module.exports = {
 
 
                 await this.createTableAndImportDataToDatabase();
+                console.log('Import data to database successfully');
+                console.log('Database is ready to use');
 
             }
             else {
@@ -371,6 +376,24 @@ module.exports = {
             db_connection.done();
         }
     },
+    queryTop15BoxOfficeMovies: async function(){
+        let db_connection = null;
+    
+        try {
+            db_connection = await newDB.connect();
+    
+            const query ='SELECT * FROM movies WHERE box_office IS NOT NULL ORDER BY box_office DESC LIMIT 15';
+            const data = await db_connection.any(query);
+            // console.log(data);
+            return data;
+        } catch (error) {
+            throw(error);
+        } 
+        finally{
+            db_connection.done();
+        }
+    },
+    
       getMovieInfo: async function(m_id) {
         let db_connection = null;
     
@@ -410,4 +433,16 @@ module.exports = {
             db_connection.done();
         }
     },
+
+    //Use to convert box office value to number
+    convertToNumber: function(str) {
+
+        if (str.trim().toUpperCase() == 'NA') {
+          return 0;
+        }
+        const numericString = str.replace(/[^0-9.-]/g, '');
+        const numericValue = parseFloat(numericString);
+        return isNaN(numericValue) ? 0 : numericValue;
+      }
+    
 }
