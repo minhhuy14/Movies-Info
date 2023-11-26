@@ -32,7 +32,15 @@ class MyTemplateEngine {
         
         // Process if-else statements
         template = template.replace(/21177\{if\s+(.*?)\}(.*?)\{else\}(.*?)\{\/if\}/gs,(_, condition, truePart, falsePart) => {
-            return data[condition.trim()] ? this.processTemplate(truePart, data) : this.processTemplate(falsePart, data);
+            // return data[condition.trim()] ? this.processTemplate(truePart, data) : this.processTemplate(falsePart, data);
+
+            let value = data;
+            const properties = condition.trim().split('.');
+            for (const prop of properties) {
+                value = value[prop];
+                if (value === undefined) return '';
+            }
+            return value ? this.processTemplate(truePart, data) : this.processTemplate(falsePart, data);
         });
 
         // Process variable replacements
@@ -43,7 +51,7 @@ class MyTemplateEngine {
                 value = value[prop];
                 if (value === undefined) return '';
             }
-            return value || '';
+            return value;
         });
 
         return template;

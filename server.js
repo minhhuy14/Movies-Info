@@ -74,16 +74,12 @@ app.engine('html', (filePath, options, callback) => {
 
 db.initDatabase();
 
-app.get('/', (req, res) => {
 
-    // console.log("Reach app.get(//)");
-        let items = [
-            { id: 10, name: 'Huy', address: 'Ho Chi Minh', family: { father: 'Ba', mother: 'Me' } },
-            { id: 11, name: 'An', address: 'Ha Noi',family: { father: 'Ba', mother: 'Me' } }
-        ];
-        // rendered = engine.processTemplate(rendered, items);
-        res.render('index', { items: items });
-});
+
+const homeRouter=require('./routes/home.router');
+
+app.use('/',homeRouter);
+
 
 
 

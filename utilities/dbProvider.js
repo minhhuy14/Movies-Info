@@ -353,5 +353,61 @@ module.exports = {
             db_connection.done();
         }
 
-    }
+    },
+    queryTop05RatingMovies: async function(){
+        let db_connection = null;
+    
+        try {
+            db_connection = await newDB.connect();
+    
+            const query ='SELECT * FROM movies WHERE imdb_rating IS NOT NULL ORDER BY imdb_rating DESC LIMIT 5';
+            const data = await db_connection.any(query);
+            // console.log(data);
+            return data;
+        } catch (error) {
+            throw(error);
+        } 
+        finally{
+            db_connection.done();
+        }
+    },
+      getMovieInfo: async function(m_id) {
+        let db_connection = null;
+    
+        try {
+            db_connection = await newDB.connect();
+            let dataObj={
+                generalData:{},
+                castList:[],
+                reviewList:[],
+                synopse:{}
+            };
+            const query_in_movies =`SELECT * FROM Movies WHERE id=$1 `;
+            const general = await db_connection.any(query_in_movies, [m_id]);
+            // console.log(data);
+            dataObj.generalData = general;
+    
+            const query_in_casts = `SELECT * FROM CastsInMovies cm JOIN Casts c ON cm.cast_id = c.id WHERE cm.movie_id = $1`;
+            const castsList = await db_connection.any(query_in_casts, [m_id]);
+            dataObj.castList = castsList;
+    
+            const query_in_reviews=`SELECT * FROM Reviews WHERE movie_id=$1 `;
+            const reviewList=await db_connection.any(query_in_reviews,[m_id]);
+    
+            dataObj.reviewList = reviewList;
+    
+            const query_in_synopses=`SELECT * FROM synopse_movie WHERE movie_id=$1 `;
+            const synopse=await db_connection.any(query_in_synopses,[m_id]);
+            
+            dataObj.synopse=synopse;
+            
+            
+            return dataObj;
+        } catch (error) {
+            throw(error);
+        } 
+        finally{
+            db_connection.done();
+        }
+    },
 }
