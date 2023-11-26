@@ -340,7 +340,7 @@ module.exports = {
                 db_connection = await newDB.connect();
                 // console.log('case 2');
                 // console.log(db_connection);
-                console.log(`Database ${process.env.DB_NAME} already exists`);
+                console.log(`Database ${process.env.DB_NAME} already exists. It will be used.`);
 
 
             }
