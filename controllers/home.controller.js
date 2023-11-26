@@ -1,4 +1,4 @@
-const {getTop05RatingMovies,getTop15BoxOfficeMovies,getMovieById,getActorById}=require('../models/home.model');
+const {getTop05RatingMovies,getTop15BoxOfficeMovies,getMovieById,getActorById, getMovieByNameOrGenre}=require('../models/home.model');
 
 exports.home=async (req,res)=>{
     try{
@@ -62,8 +62,8 @@ exports.home=async (req,res)=>{
 exports.detailmovie=async (req,res)=>{
     try{
         const id=req.params.id;
-        console.log('detailmovie');
-        console.log(id);
+        // console.log('detailmovie');
+        // console.log(id);
         const reviewPage=req.params.reviewpage||1;
         const selectedPage=req.params.page||1;
 
@@ -130,8 +130,8 @@ exports.detailmovie=async (req,res)=>{
 }
 
 exports.getReviews = async (req, res) => {
-    console.log('getReviews');
-    console.log(req.params);
+    // console.log('getReviews');
+    // console.log(req.params);
     const movieId = req.params.movie_id;
     const page = req.params.page || 1;
     const reviewsPerPage = 2;
@@ -162,7 +162,7 @@ exports.detailActor=async (req,res)=>{
         let generalData=actor.generalData[0];
         let movieList=actor.movieList;
         // console.log(generalData);
-        console.log(movieList);
+        // console.log(movieList);
         res.render('detailactor',
         {
                 general_data:generalData,
@@ -173,4 +173,40 @@ exports.detailActor=async (req,res)=>{
         console.log(err);
         res.status(500).send('Error while get detail actor by id');
     }
+}
+
+exports.searchMovie=async (req,res)=>{
+    try{
+        const name=req.query.search_value;
+        console.log(name);
+        let movies=await getMovieByNameOrGenre(name);
+        // console.log(movies);
+        
+        let total_results=movies.length;
+
+        
+        // console.log(movies.length);
+       // Log unique movie IDs
+       const uniqueMovieIds = [...new Set(movies.map(movie => movie.id))];
+    //    console.log(uniqueMovieIds);
+
+       movies = removeDuplicates(movies, 'id');
+
+    //    console.log(movies.length);
+        res.render('searchmovie',
+        {
+            movies:movies,
+            total_results:total_results
+        });
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).send('Error while search movie by name');
+    }
+}
+
+function removeDuplicates(arr, prop) {
+    return arr.filter((movie, index, self) =>
+        index === self.findIndex((m) => m[prop] === movie[prop])
+    );
 }

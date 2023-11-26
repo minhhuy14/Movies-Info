@@ -460,6 +460,24 @@ module.exports = {
             db_connection.done();
         }
     },
+    getMovieByNameOrGenre: async function(query){
+        let db_connection = null;
+    
+        try {
+            db_connection = await newDB.connect();
+            const query_in_movies =`SELECT * FROM movies m join genres g on m.id=g.movie_id WHERE m.full_title LIKE '%${query}%' or g.genre LIKE '%${query}%'`;
+            const data = await db_connection.any(query_in_movies);
+            // console.log(data);
+            return data;
+        } catch (error) {
+            throw(error);
+        } 
+        finally{
+            db_connection.done();
+        }
+    
+    
+    },
 
     //Use to convert box office value to number
     convertToNumber: function(str) {

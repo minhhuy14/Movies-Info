@@ -42,6 +42,16 @@ class QueryMovies{
             throw error;
         }
     }
+    static async getMovieByNameOrGenre(name){
+        try {
+            let data = await db.getMovieByNameOrGenre(name);
+            
+            return data;
+
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = QueryMovies;
