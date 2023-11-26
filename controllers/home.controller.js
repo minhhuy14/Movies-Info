@@ -62,10 +62,13 @@ exports.home=async (req,res)=>{
 exports.detailmovie=async (req,res)=>{
     try{
         const id=req.params.id;
+        console.log('detailmovie');
+        console.log(id);
         const reviewPage=req.params.reviewpage||1;
         const selectedPage=req.params.page||1;
 
         let movie=await getMovieById(id);
+        console.log(movie.id);
     // console.log(movie.generalData[0].title);
     
         //  console.log(movie.castList);
@@ -113,7 +116,7 @@ exports.detailmovie=async (req,res)=>{
                                     castsdata: castsData.slice(selectedPage*10-10, selectedPage*10),
                                      listpages:arrayPages,
                                     currentpage:parseInt(selectedPage),
-                                    movie_id:castsData[0].movie_id,
+                                    movie_id:id,
                                     current_review_page:parseInt(reviewPage),
                                     list_review_pages:arrayReviewsPages,
                                     genres_data:genres_data
