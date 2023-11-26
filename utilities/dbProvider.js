@@ -105,7 +105,7 @@ module.exports = {
             `
             await this.createTable('genres', genres_columns);
 
-            
+
             for (let i = 0; i < data.Movies.length; i++) {
                 let mv = data.Movies[i];
                 let movie_rating = mv.imDbRating;
@@ -149,41 +149,41 @@ module.exports = {
                     })
                     .catch(error => { console.log('Error inserting into movies' + error) });
 
-                   
-        
-                    for (let j = 0; j < mv.actorList.length; j++) {
-                        if (!mv.actorList[j].asCharacter) {
-                            continue;
-                        }
-                        insertQuery = `INSERT INTO actors values ($1,$2,$3) ON CONFLICT DO NOTHING`;
-                        values = [
-                            mv.id,
-                            mv.actorList[j].id,
-                            mv.actorList[j].asCharacter
-        
-                        ];
-                        // console.log(insertQuery);
-                        newDB.none(insertQuery, values)
-                            .then(() => {
-                                // console.log('Insert actors '+j +' successfully');
-                            })
-                            .catch(error => { console.log('Error inserting into actors' + error) });
-                     }   
 
-                     for (let j = 0; j < mv.genreList.length; j++) {
-                        insertQuery = `INSERT INTO genres values ($1,$2) ON CONFLICT DO NOTHING`;
-                        values = [
-                            mv.id,
-                            mv.genreList[j]
-        
-                        ];
-                        // console.log(insertQuery);
-                        newDB.none(insertQuery, values)
-                            .then(() => {
-                                // console.log('Insert actors '+j +' successfully');
-                            })
-                            .catch(error => { console.log('Error inserting into genres' + error) });
-                     }   
+
+                for (let j = 0; j < mv.actorList.length; j++) {
+                    if (!mv.actorList[j].asCharacter) {
+                        continue;
+                    }
+                    insertQuery = `INSERT INTO actors values ($1,$2,$3) ON CONFLICT DO NOTHING`;
+                    values = [
+                        mv.id,
+                        mv.actorList[j].id,
+                        mv.actorList[j].asCharacter
+
+                    ];
+                    // console.log(insertQuery);
+                    newDB.none(insertQuery, values)
+                        .then(() => {
+                            // console.log('Insert actors '+j +' successfully');
+                        })
+                        .catch(error => { console.log('Error inserting into actors' + error) });
+                }
+
+                for (let j = 0; j < mv.genreList.length; j++) {
+                    insertQuery = `INSERT INTO genres values ($1,$2) ON CONFLICT DO NOTHING`;
+                    values = [
+                        mv.id,
+                        mv.genreList[j]
+
+                    ];
+                    // console.log(insertQuery);
+                    newDB.none(insertQuery, values)
+                        .then(() => {
+                            // console.log('Insert actors '+j +' successfully');
+                        })
+                        .catch(error => { console.log('Error inserting into genres' + error) });
+                }
 
 
             }
@@ -208,8 +208,7 @@ module.exports = {
                 `
             await this.createTable('cast_in_movies', cast_in_movies_columns);
 
-            for (let i=0;i<data.Names.length;i++)
-            {
+            for (let i = 0; i < data.Names.length; i++) {
                 let nm = data.Names[i];
                 insertQuery = `INSERT INTO names values ($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT DO NOTHING`;
                 values = [
@@ -230,10 +229,8 @@ module.exports = {
                     })
                     .catch(error => { console.log('Error inserting into names' + error) });
 
-                if (nm.castMovies)
-                {
-                    for (let j=0;j<nm.castMovies.length;j++)
-                    {
+                if (nm.castMovies) {
+                    for (let j = 0; j < nm.castMovies.length; j++) {
                         insertQuery = `INSERT INTO cast_in_movies values ($1,$2,$3) ON CONFLICT DO NOTHING`;
                         values = [
                             nm.id,
@@ -248,7 +245,7 @@ module.exports = {
                             .catch(error => { console.log('Error inserting into cast_in_movies' + error) });
                     }
                 }
-                
+
             }
 
             let reviews_columns = `
@@ -264,13 +261,11 @@ module.exports = {
             `
             await this.createTable('reviews', reviews_columns);
 
-            let cnt=1;
-            for (let i=0;i<data.Reviews.length;i++)
-            {
+            let cnt = 1;
+            for (let i = 0; i < data.Reviews.length; i++) {
                 let rv = data.Reviews[i];
-                if (rv.items){
-                    for (let j=0;j<rv.items.length;j++)
-                    {
+                if (rv.items) {
+                    for (let j = 0; j < rv.items.length; j++) {
                         const reviewId = `rv${cnt.toString().padStart(5, '0')}`;
                         let rating = rv.items[j].rate;
                         if (rating == null) {
@@ -284,7 +279,7 @@ module.exports = {
                                 rating = parseFloat(rating);
                             }
                         }
-                        insertQuery=`INSERT INTO reviews values ($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING`;
+                        insertQuery = `INSERT INTO reviews values ($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING`;
                         values = [
                             reviewId,
                             rv.movieId,
@@ -297,15 +292,15 @@ module.exports = {
                         ];
                         cnt++;
                         newDB.none(insertQuery, values)
-                        .then(() => {
-                            // console.log('Insert reviews '+cnt +' successfully');
-                        })
-                        .catch(error => { console.log('Error inserting into reviews' + error) });
+                            .then(() => {
+                                // console.log('Insert reviews '+cnt +' successfully');
+                            })
+                            .catch(error => { console.log('Error inserting into reviews' + error) });
                     }
                 }
-              
+
             }
-            
+
         }
         catch (err) {
             console.error(err);
