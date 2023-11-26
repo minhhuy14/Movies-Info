@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 21177;
 
 const app = express();
 app.use(express.urlencoded({extended:true}));
-// app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'public')));
 
 app.use(express.json());
 
@@ -78,8 +78,8 @@ app.get('/', (req, res) => {
 
     // console.log("Reach app.get(//)");
         let items = [
-            { id: 10, name: 'Huy', address: 'Ho Chi Minh' },
-            { id: 11, name: 'An', address: 'Ha Noi' }
+            { id: 10, name: 'Huy', address: 'Ho Chi Minh', family: { father: 'Ba', mother: 'Me' } },
+            { id: 11, name: 'An', address: 'Ha Noi',family: { father: 'Ba', mother: 'Me' } }
         ];
         // rendered = engine.processTemplate(rendered, items);
         res.render('index', { items: items });

@@ -1,0 +1,192 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+body{
+    margin: 0 auto;
+    background: #c3c7c4; 
+    max-width: 1200px;
+    overflow-x:hidden; 
+}
+
+#header{
+    height: 4em;
+    text-align: center;
+    border-radius: 4px;
+    background: var(--bs-body-bg);
+    margin-bottom: 8px;
+    margin-top: 4px;
+    margin-left: 1px;
+    margin-right: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.api-info{
+    position: absolute;
+    top: 4px;
+    right: 10px;
+}
+
+.switch-button{
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+}
+
+.id-student-info{
+    position: absolute;
+
+    left: 4px;
+}
+
+.purple-color{
+    color: #d94386;
+}
+.my-home-icon{
+    font-size: 20px;
+}
+.navbar{
+    border-radius: 4px;
+    /* display: flex;
+    align-items: center;
+    justify-content: space-around; */
+}
+.individual-info{
+    text-align: center;
+    margin: 0 auto;
+}
+.footer{
+    border-radius: 4px;
+    background: var(--bs-body-bg);
+    height: 3em;
+    text-align: center;
+    color: #ccc;
+    font-style: italic;
+    line-height: 3em;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.top-movies-img{
+   width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+
+.top-movies-caption{
+    bottom: 0.25em;
+    color: #fff !important;
+}
+.navbar{
+    margin-bottom: 8px;
+}
+
+.movies-styles{
+    height: 300px;
+    object-fit: cover;
+   
+}
+.movie-item-box{
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.indicator-style{
+    right: -2em;
+    left: auto;
+    bottom: auto;
+    top: -26px;
+}
+
+.movie-item-box img{
+    transition: transform .4s;
+    display: block;
+}
+
+.zoom-onhover:hover{
+    transform: scale(2); 
+}
+
+.main-movie-content{
+    display: flex;
+}
+.detail-img{
+    width: 350px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 12px;
+
+}
+
+.item-movie{
+    position: relative;
+    cursor: pointer;
+}
+
+.detail-content h3{
+    text-align: center;
+}
+
+.detail-content{
+    padding-left: 20px;
+}
+
+.actor-box{
+    display: block;
+    width: 100%;
+}
+
+
+.popular-movies-caption{
+    color: #fff !important;
+    position: absolute;
+    z-index: 1;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    transform: translateY(50%);
+}
+.addition-content{
+    display: block;
+    width: 100%;
+}
+
+.actor-link{
+    cursor:pointer;
+    color: blue;
+    text-decoration: dashed;
+}
+
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-arround;
+    margin-left: 20px;
+}
+.card {
+    flex: 0 0 20%;
+    margin-bottom: 20px;
+    margin-right: 30px;
+}
+.no-results{
+    width: 100%;
+    height: 72vh;
+}
+.no-results h2{
+    font-style: italic;
+    text-align: center;
+    font-weight: 400;
+}
+
+.search-movie{
+    cursor: pointer;
+}
