@@ -403,26 +403,25 @@ module.exports = {
                 generalData:{},
                 castList:[],
                 reviewList:[],
-                synopse:{}
+                genreList:[]
             };
-            const query_in_movies =`SELECT * FROM Movies WHERE id=$1 `;
+            const query_in_movies =`SELECT * FROM movies WHERE id=$1 `;
             const general = await db_connection.any(query_in_movies, [m_id]);
             // console.log(data);
             dataObj.generalData = general;
     
-            const query_in_casts = `SELECT * FROM CastsInMovies cm JOIN Casts c ON cm.cast_id = c.id WHERE cm.movie_id = $1`;
+            const query_in_casts = `SELECT * FROM actors at JOIN names n ON at.actor_id = n.id WHERE at.movie_id = $1`;
             const castsList = await db_connection.any(query_in_casts, [m_id]);
             dataObj.castList = castsList;
     
-            const query_in_reviews=`SELECT * FROM Reviews WHERE movie_id=$1 `;
+            const query_in_reviews=`SELECT * FROM reviews WHERE movie_id=$1 `;
             const reviewList=await db_connection.any(query_in_reviews,[m_id]);
     
             dataObj.reviewList = reviewList;
-    
-            const query_in_synopses=`SELECT * FROM synopse_movie WHERE movie_id=$1 `;
-            const synopse=await db_connection.any(query_in_synopses,[m_id]);
-            
-            dataObj.synopse=synopse;
+
+            const query_in_genres=`SELECT * FROM genres WHERE movie_id=$1 `;
+            const genreList=await db_connection.any(query_in_genres,[m_id]);
+            dataObj.genreList = genreList;
             
             
             return dataObj;

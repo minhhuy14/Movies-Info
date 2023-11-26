@@ -6,6 +6,8 @@ const router=express.Router();
 
 router.get('/',homeController.home);
 
+router.get('/detailmovie/:id', homeController.detailmovie);
 
+router.get('/detailmovie/:movie_id/reviews/page/:page', homeController.getReviews);
 
 module.exports = router;

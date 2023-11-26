@@ -29,16 +29,43 @@ class MyTemplateEngine {
             }
             return result;
         });
-        
+
         // Process if-else statements
-        template = template.replace(/21177\{if\s+(.*?)\}(.*?)\{else\}(.*?)\{\/if\}/gs,(_, condition, truePart, falsePart) => {
-            // return data[condition.trim()] ? this.processTemplate(truePart, data) : this.processTemplate(falsePart, data);
+        template = template.replace(/21177\{if\s+(.*?)\}(.*?)\{else\}(.*?)\{\/if\}/gs, (_, condition, truePart, falsePart) => {
+            // Replace variables in condition
+
+            // condition = condition + '}';
+            if (condition.includes('{')) {
+                condition = condition + '}';
+            }
+
+            condition = condition.replace(/21177\{([^{}]+)\}/g, (_, varName) => {
+                let value = data;
+                // console.log(value);
+                const properties = varName.trim().split('.');
+                for (const prop of properties) {
+                    value = value[prop];
+                    if (value === undefined) return '';
+                }
+                // console.log(value);
+                return value;
+            });
 
             let value = data;
             const properties = condition.trim().split('.');
-            for (const prop of properties) {
-                value = value[prop];
-                if (value === undefined) return '';
+
+            // Check if condition is a comparison
+            if (properties[0].includes('===')) {
+                const [varName, expectedValue] = properties[0].split('===');
+                value = data[varName.trim()] === Number(expectedValue) ? true : false;
+            } else if (properties[0].includes('==')) {
+                const [varName, expectedValue] = properties[0].split('==');
+                value = data[varName.trim()] == expectedValue.trim() ? true : false;
+            } else {
+                for (const prop of properties) {
+                    value = value[prop];
+                    if (value === undefined) return '';
+                }
             }
             return value ? this.processTemplate(truePart, data) : this.processTemplate(falsePart, data);
         });
