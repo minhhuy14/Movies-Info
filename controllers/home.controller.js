@@ -1,4 +1,4 @@
-const {getTop05RatingMovies,getTop15BoxOfficeMovies,getMovieById}=require('../models/home.model');
+const {getTop05RatingMovies,getTop15BoxOfficeMovies,getMovieById,getActorById}=require('../models/home.model');
 
 exports.home=async (req,res)=>{
     try{
@@ -68,7 +68,6 @@ exports.detailmovie=async (req,res)=>{
         const selectedPage=req.params.page||1;
 
         let movie=await getMovieById(id);
-        console.log(movie.id);
     // console.log(movie.generalData[0].title);
     
         //  console.log(movie.castList);
@@ -154,3 +153,24 @@ exports.getReviews = async (req, res) => {
         listReviewPages: arrayReviewsPages
     });
 };
+
+exports.detailActor=async (req,res)=>{
+    try{
+        const id=req.params.id;
+        let actor=await getActorById(id);
+        // console.log(actor);
+        let generalData=actor.generalData[0];
+        let movieList=actor.movieList;
+        // console.log(generalData);
+        console.log(movieList);
+        res.render('detailactor',
+        {
+                general_data:generalData,
+                movie_list:movieList
+        });
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).send('Error while get detail actor by id');
+    }
+}

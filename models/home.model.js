@@ -32,6 +32,16 @@ class QueryMovies{
             throw error;
         }
     }
+    static async getActorById(a_id){
+        try {
+            let data = await db.getActorInfo(a_id);
+            
+            return data;
+
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = QueryMovies;

@@ -432,6 +432,34 @@ module.exports = {
             db_connection.done();
         }
     },
+    getActorInfo: async function(c_id) {
+        let db_connection = null;
+    
+        try {
+            db_connection = await newDB.connect();
+            let dataObj={
+                generalData:{},
+                movieList:[]
+            };
+            const query_in_names =`SELECT * FROM names WHERE id=$1 `;
+            const general = await db_connection.any(query_in_names, [c_id]);
+            // console.log(data);
+            dataObj.generalData = general;
+    
+            const query_in_movies = `SELECT * FROM cast_in_movies cm JOIN movies m ON cm.movie_id = m.id WHERE cm.cast_id = $1`;
+            const movieList = await db_connection.any(query_in_movies, [c_id]);
+            dataObj.movieList = movieList;
+            // console.log('getActorInfo');
+            // console.log(movieList);   
+            
+            return dataObj;
+        } catch (error) {
+            throw(error);
+        } 
+        finally{
+            db_connection.done();
+        }
+    },
 
     //Use to convert box office value to number
     convertToNumber: function(str) {

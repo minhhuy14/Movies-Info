@@ -109,6 +109,7 @@ body{
 .movie-item-box img{
     transition: transform .4s;
     display: block;
+    width: 200px;
 }
 
 .zoom-onhover:hover{

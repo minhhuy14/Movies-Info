@@ -1,191 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>21120177-BTCN03</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/styles.css">
-     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-     <script src="https://kit.fontawesome.com/f14e332891.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>21120177-BTCN03</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://kit.fontawesome.com/f14e332891.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
- 
+
   <div id="header">
-    
+
     <p class="id-student-info">21120177</p>
     <h3 class="header-title">Movies Infomation</h3>
     <div class="form-check form-switch switch-button">
-        <input class="form-check-input darkmode-btn" type="checkbox" role="switch" id="flexSwitchCheckChecked">
-        <label class="form-check-label darkmode-icon" for="flexSwitchCheckChecked"><i class="fa-duotone fa-sun-bright"></i></label>
-    </div>
-</div>
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" href="/"><i class="fa-solid fa-house my-home-icon"></i></a>
-        </li>
-      </ul>
-      <h5 class="individual-info">21177</h5>
-      <form class="d-flex" role="search" method="GET" action="/detailmovie/">
-        <input id="my-search-input" class="form-control me-2" type="search" name="search_value" placeholder="Search" aria-label="Search">
-        <button id="my-search-button" class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      <input class="form-check-input darkmode-btn" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+      <label class="form-check-label darkmode-icon" for="flexSwitchCheckChecked"><i
+          class="fa-duotone fa-sun-bright"></i>Dark Mode</label>
     </div>
   </div>
-</nav>
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" href="/"><i class="fa-solid fa-house my-home-icon"></i></a>
+          </li>
+        </ul>
+        <h5 class="individual-info">21177</h5>
+        <form class="d-flex" role="search" method="GET" action="/detailmovie/">
+          <input id="my-search-input" class="form-control me-2" type="search" name="search_value" placeholder="Search"
+            aria-label="Search">
+          <button id="my-search-button" class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
 
 
-<div id="topMoviesIndicator" class="carousel slide">
-  <h5>Top Rating Movies</h5>
+  <div id="topMoviesIndicator" class="carousel slide">
+    <h5>Top Rating Movies</h5>
 
-  <div class="carousel-indicators">
-    21177{for mv in results}
+    <div class="carousel-indicators">
+      21177{for mv in results}
       21177{if mv.tempvalue}
-            <button type="button"  data-bs-target="#topMoviesIndicator" data-bs-slide-to="21177{ mv.show_id}" key="21177{ mv.show_id}" class="active"></button>
+      <button type="button" data-bs-target="#topMoviesIndicator" data-bs-slide-to="21177{ mv.show_id}"
+        key="21177{ mv.show_id}" class="active"></button>
       {else}
-      <button type="button" data-bs-target="#topMoviesIndicator" data-bs-slide-to="21177{ mv.show_id}" key="21177{ mv.show_id}"></button>
+      <button type="button" data-bs-target="#topMoviesIndicator" data-bs-slide-to="21177{ mv.show_id}"
+        key="21177{ mv.show_id}"></button>
       {/if}
-    {/for}
-  </div>
- <div class="carousel-inner">
-
-  21177{for mv in results}
-    
-    21177{if mv.tempvalue}
-
-        <div class="carousel-item top-rating-item active" key="21177{ mv.show_id }">
-          <a href="/detailmovie/21177{ mv.id }">
-          <img class="d-block top-movies-img" src="21177{ mv.image }" alt="movie-poster">
-          </a>
-        </div> 
-        {else}
-        <div class="carousel-item top-rating-item"  key="21177{ mv.show_id }" data-id="21177{ movie_id }">
-          <a href="/detailmovie/21177{ mv.id }">
-            <img class="d-block top-movies-img" src="21177{ mv.image }" alt="movie-poster">
-            </a>
-        </div> 
-        {/if}
-  
-  {/for}
-
-
-  
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#topMoviesIndicator" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#topMoviesIndicator" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-<div class="popular-movies">
-  <h5>Top Box Office</h5>
-  <div id="popularIndicator" class="carousel slide" style="height: 40%;">
-    <div class="carousel-indicators indicator-style">
-      21177{for group in topboxoffice}
-        21177{if group.tempvalue} 
-      <button key="21177{ group.show_id }" type="button" data-bs-target="#popularIndicator"
-        data-bs-slide-to="21177{ group.show_id }" class="active"></button>
-        {else}
-        <button key="21177{ group.show_id }" type="button" data-bs-target="#popularIndicator"
-        data-bs-slide-to="21177{ group.show_id }"></button>
-        {/if}
       {/for}
     </div>
     <div class="carousel-inner">
-      21177{for group in topboxoffice}
-      <!-- <p>21177{ group.first_movie.id }</p> -->
-        21177{if group.tempvalue} 
+
+      21177{for mv in results}
+
+      21177{if mv.tempvalue}
+
+      <div class="carousel-item top-rating-item active" key="21177{ mv.show_id }">
+        <a href="/detailmovie/21177{ mv.id }">
+          <img class="d-block top-movies-img" src="21177{ mv.image }" alt="movie-poster">
+        </a>
+      </div>
+      {else}
+      <div class="carousel-item top-rating-item" key="21177{ mv.show_id }" data-id="21177{ movie_id }">
+        <a href="/detailmovie/21177{ mv.id }">
+          <img class="d-block top-movies-img" src="21177{ mv.image }" alt="movie-poster">
+        </a>
+      </div>
+      {/if}
+
+      {/for}
+
+
+
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#topMoviesIndicator" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#topMoviesIndicator" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div class="popular-movies">
+    <h5>Top Box Office</h5>
+    <div id="popularIndicator" class="carousel slide" style="height: 40%;">
+      <div class="carousel-indicators indicator-style">
+        21177{for group in topboxoffice}
+        21177{if group.tempvalue}
+        <button key="21177{ group.show_id }" type="button" data-bs-target="#popularIndicator"
+          data-bs-slide-to="21177{ group.show_id }" class="active"></button>
+        {else}
+        <button key="21177{ group.show_id }" type="button" data-bs-target="#popularIndicator"
+          data-bs-slide-to="21177{ group.show_id }"></button>
+        {/if}
+        {/for}
+      </div>
+      <div class="carousel-inner">
+        21177{for group in topboxoffice}
+        <!-- <p>21177{ group.first_movie.id }</p> -->
+        21177{if group.tempvalue}
         <div key="index" class="carousel-item active">
 
-        <div class="movie-item-box">
-        <div class="item-movie">
-          <a href="/detailmovie/21177{ group.first_movie.id }">
-            <img src="21177{ group.first_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
-            <div class="d-none d-md-block popular-movies-caption">
-                <h5>21177{ group.first_movie.title }</h5>
-                <p>21177{ group.first_movie.year }</p>
+          <div class="movie-item-box">
+            <div class="item-movie">
+              <a href="/detailmovie/21177{ group.first_movie.id }">
+                <img src="21177{ group.first_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                <div class="d-none d-md-block popular-movies-caption">
+                  <h5>21177{ group.first_movie.title }</h5>
+                  <p>21177{ group.first_movie.year }</p>
+                </div>
+              </a>
             </div>
-          </a>
-        </div>
-        <div class="item-movie">
-          <a href="/detailmovie/21177{ group.second_movie.id }">
-            <img src="21177{ group.second_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
-            <div class="d-none d-md-block popular-movies-caption">
-                <h5>21177{ group.second_movie.title }</h5>
-                <p>21177{ group.second_movie.year }</p>
+            <div class="item-movie">
+              <a href="/detailmovie/21177{ group.second_movie.id }">
+                <img src="21177{ group.second_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                <div class="d-none d-md-block popular-movies-caption">
+                  <h5>21177{ group.second_movie.title }</h5>
+                  <p>21177{ group.second_movie.year }</p>
+                </div>
+              </a>
             </div>
-          </a>
-      </div>
-      <div class="item-movie">
-        <a href="/detailmovie/21177{ group.third_movie.id }">
-          <img src="21177{ group.third_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
-          <div class="d-none d-md-block popular-movies-caption">
-              <h5>21177{ group.third_movie.title }</h5>
-              <p>21177{ group.third_movie.year }</p>
+            <div class="item-movie">
+              <a href="/detailmovie/21177{ group.third_movie.id }">
+                <img src="21177{ group.third_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                <div class="d-none d-md-block popular-movies-caption">
+                  <h5>21177{ group.third_movie.title }</h5>
+                  <p>21177{ group.third_movie.year }</p>
+                </div>
+              </a>
+            </div>
           </div>
-        </a>
-    </div>
         </div>
-      </div>
         {else}
         <div key="index" class="carousel-item">
 
           <div class="movie-item-box">
-          <div class="item-movie">
-            <a href="/detailmovie/21177{ group.first_movie.id }">
-              <img src="21177{ group.first_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
-              <div class="d-none d-md-block popular-movies-caption">
+            <div class="item-movie">
+              <a href="/detailmovie/21177{ group.first_movie.id }">
+                <img src="21177{ group.first_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                <div class="d-none d-md-block popular-movies-caption">
                   <h5>21177{ group.first_movie.title }</h5>
                   <p>21177{ group.first_movie.year }</p>
-              </div>
-            </a>
-          </div>
-          <div class="item-movie">
-            <a href="/detailmovie/21177{ group.second_movie.id }">
-              <img src="21177{ group.second_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
-              <div class="d-none d-md-block popular-movies-caption">
+                </div>
+              </a>
+            </div>
+            <div class="item-movie">
+              <a href="/detailmovie/21177{ group.second_movie.id }">
+                <img src="21177{ group.second_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                <div class="d-none d-md-block popular-movies-caption">
                   <h5>21177{ group.second_movie.title }</h5>
                   <p>21177{ group.second_movie.year }</p>
-              </div>
-            </a>
-        </div>
-        <div class="item-movie">
-          <a href="/detailmovie/21177{ group.third_movie.id }">
-            <img src="21177{ group.third_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
-            <div class="d-none d-md-block popular-movies-caption">
-                <h5>21177{ group.third_movie.title }</h5>
-                <p>21177{ group.third_movie.year }</p>
+                </div>
+              </a>
             </div>
-          </a>
-      </div>
+            <div class="item-movie">
+              <a href="/detailmovie/21177{ group.third_movie.id }">
+                <img src="21177{ group.third_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                <div class="d-none d-md-block popular-movies-caption">
+                  <h5>21177{ group.third_movie.title }</h5>
+                  <p>21177{ group.third_movie.year }</p>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
         {/if}
 
-      {/for}
+        {/for}
 
 
-      
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#popularIndicator"
-        data-bs-slide="prev">
+
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#popularIndicator" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#popularIndicator"
-        data-bs-slide="next">
+      <button class="carousel-control-next" type="button" data-bs-target="#popularIndicator" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
-  </div>
-<div class="footer">Copyright @ LeMinhHuy</div>
+    </div>
+    <div class="footer">Copyright @ LeMinhHuy</div>
 
 
     <script src="/js/header.js"></script>
@@ -194,4 +198,5 @@
 </body>
 
 </body>
+
 </html>

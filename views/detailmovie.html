@@ -18,7 +18,7 @@
         <div class="form-check form-switch switch-button">
             <input class="form-check-input darkmode-btn" type="checkbox" role="switch" id="flexSwitchCheckChecked">
             <label class="form-check-label darkmode-icon" for="flexSwitchCheckChecked"><i
-                    class="fa-duotone fa-sun-bright"></i></label>
+                    class="fa-duotone fa-sun-bright"></i>Dark Mode</label>
         </div>
     </div>
 
@@ -83,27 +83,6 @@
                 {/for}
             </tbody>
         </table>
-        <!-- <nav aria-label="Page navigation example">
-    <ul class="pagination">
-        
-       <li class="page-item {{#if (isFirstPage currentPage)}}disabled{{/if}}"><a class="page-link" href="/detailmovie/{{movie_id}}/page/{{subtract currentPage 1}}">Previous</a></li>
-            {{#each listPages}}
-                {{#if (isCurrentPage ../currentPage this)}}
-                    <li class="page-item active">
-                        <a class="page-link" href="/detailmovie/{{../movie_id}}/page/{{this}}">{{this}}</a>
-                    </li>
-                    {{!--  --}}
-                {{else}}
-                    <li class="my-item page-item">
-                        <a class="page-link" href="/detailmovie/{{../movie_id}}/page/{{this}}"> {{this}}</a>
-                        {{!--  --}}
-                    </li>
-                {{/if}}
-            {{/each}}
-        <li class="page-item {{#if (isLastPage currentPage listPages.length)}}disabled{{/if}} "><a class="page-link" href="/detailmovie/{{movie_id}}/page/{{add currentPage 1}}">Next</a></li>
-       
-    </ul>
-</nav> -->
     </div>
 
 
