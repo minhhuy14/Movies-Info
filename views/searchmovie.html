@@ -29,9 +29,12 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="/"><i class="fa-solid fa-house my-home-icon"></i></a>
                     </li>
+                    <li class="nav-item favorite-btn">
+                        <a class="nav-link active" aria-current="page" href="#">List Favorite Movies</a>
+                      </li>
                 </ul>
                 <h5 class="individual-info">21177</h5>
-                <form class="d-flex" role="search" method="GET" action="/detailmovie/">
+                <form class="d-flex" role="search" method="GET" action="/search/">
                     <input id="my-search-input" class="form-control me-2" type="search" name="search_value"
                         placeholder="Search" aria-label="Search">
                     <button id="my-search-button" class="btn btn-outline-success" type="submit">Search</button>
@@ -62,7 +65,28 @@
         </div>   
         </div>
         {/for}
+
         {/if}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <!-- <li class="page-item-result previous-item {{#if (isFirstPage currentReviewPage)}}disabled{{/if}}" data-movieId="21177{ movie_id }" data-valReviewPage="{{subtract currentReviewPage 1}}">
+            <a class="page-link" href="">Previous</a>
+        </li> -->
+                <!-- <p>21177{ current_review_page }</p> -->
+                21177{for p in list_pages}
+                21177{if p == 21177{current_page}
+                <li class="page-item-result active" data-valsearch="21177{ search_value }">
+                    <a class="page-link" href="">21177{ p }</a>
+                </li>
+                {else}
+                <li class="page-item-result" data-valsearch="21177{ search_value }">
+                    <a class="page-link" href="">21177{ p }</a>
+                </li>
+                {/if}
+                {/for}
+    
+            </ul>
+        </nav>
     </div>
     <div class="footer">Copyright @ LeMinhHuy</div>
 
@@ -70,7 +94,106 @@
     <script src="/js/header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/detailmovie.js"></script>
+    <!-- <script>
 
+        // $(document).ready(function () {
+
+
+        //     $('.page-item-result').click(function (e) {
+        //         e.preventDefault();
+        //         let currentPage = parseInt($(this).text());
+        //         let id = $(this).attr('data-movieId');
+        //         console.log(id);
+        //         console.log(currentPage);
+        //         loadReviewPage(currentPage, id);
+        //         console.log('Da click');
+        //         $('.page-item-result').removeClass('active');
+        //         $(this).addClass('active');
+        //     });
+        
+        //     let movie_id = $('.page-item-result').attr('data-movieId');
+        //     loadReviewPage(1, movie_id);
+        
+        // });
+        
+        // function loadReviewPage(pageNumber, movie_id) {
+        //     $.ajax({
+        //         url: `/detailmovie/${movie_id}/reviews/page/${pageNumber}`,
+        //         type: 'GET',
+        //         success: function (data) {
+        //             console.log(data);
+        //             console.log(typeof data);
+        //             $('#reviewTableBody').empty();
+        //             console.log(data.reviewsData.length);
+        //             data.reviewsData.forEach(rv => {
+        //                 $('#reviewTableBody').append(`
+        //            <tr>
+        //               <th scope="row">${rv.username}</th>
+        //                <td>${rv.title_review}</td>
+        //                <td>${rv.date}</td>
+        //                <td>${rv.user_rating}</td>
+        //                <td>${rv.warning_spoiler}</td>
+        //                <td>${rv.text_review}</td>
+                      
+        //            </tr>
+        //            `);
+        //             });
+        
+        //         }
+        //     });
+        // }
+
+        $(document).ready(function () {
+
+
+$('.page-item-result').click(function (e) {
+    e.preventDefault();
+    let currentPage = parseInt($(this).text());
+    // let id = $(this).attr('data-movieId');
+    // console.log(id);
+    let valname=$('#my-search-input').val();
+
+    console.log(currentPage);
+    loadSearchPage(currentPage,valname );
+    console.log('Da click');
+    $('.page-item-result').removeClass('active');
+    $(this).addClass('active');
+});
+
+loadSearchPage(1,name);
+
+});
+
+function loadSearchPage(pageNumber, name) {
+$.ajax({
+    url: `/search/?search_value=${name}/${pageNumber}`,
+    type: 'GET',
+    success: function (data) {
+        console.log(data);
+        console.log(typeof data);
+        $('.card-container').empty();
+        // console.log(data.movies.length);
+        data.movies.forEach(mv => {
+            $('.card-container').append(`
+            <div class="card search-movie"> 
+        <a href=/detailmovie/${ mv.id }">
+            <img src="${ mv.image }"  class="card-img-top" alt="">
+        </a>
+        <div class="card-body">
+            <h5 class="card-title">${ mv.title }</h5>
+            <p class="card-title">${ mv.year }</p>
+            <p class="card-title">Rating: ${ mv.imdb_rating }</p>
+            <p class="card-title">Duration time: ${ mv.runtime }</p>
+        </div>   
+        </div>
+       `);
+        });
+
+    }
+});
+}
+        
+    </script> -->
 </body>
 
 </html>

@@ -1,4 +1,5 @@
 
+
 $(document).ready(function () {
 
 
@@ -24,10 +25,10 @@ function loadReviewPage(pageNumber, movie_id) {
         url: `/detailmovie/${movie_id}/reviews/page/${pageNumber}`,
         type: 'GET',
         success: function (data) {
-            console.log(data);
-            console.log(typeof data);
+            // console.log(data);
+            // console.log(typeof data);
             $('#reviewTableBody').empty();
-            console.log(data.reviewsData.length);
+            // console.log(data.reviewsData.length);
             data.reviewsData.forEach(rv => {
                 $('#reviewTableBody').append(`
            <tr>

@@ -22,6 +22,17 @@ class QueryMovies{
         }
 
     }
+
+    static async getTop15FavoriteMovies(){
+        try{
+            let data = await db. queryTop15RanksFromFavoriteMovies();
+            // console.log(data);
+            return data;
+        }
+        catch(error){
+            throw error;
+        }
+    }
     static async getMovieById(m_id){
         try {
             let data = await db.getMovieInfo(m_id);

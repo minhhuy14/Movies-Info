@@ -11,7 +11,8 @@ router.get('/detailmovie/:id', homeController.detailmovie);
 
 router.get('/detailmovie/:movie_id/reviews/page/:page', homeController.getReviews);
 
-router.get('/detailmovie',homeController.searchMovie);
+router.get('/search',homeController.searchMovie);
+
 
 
 module.exports = router;

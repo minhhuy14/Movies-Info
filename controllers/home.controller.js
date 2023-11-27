@@ -1,4 +1,4 @@
-const {getTop05RatingMovies,getTop15BoxOfficeMovies,getMovieById,getActorById, getMovieByNameOrGenre}=require('../models/home.model');
+const {getTop05RatingMovies,getTop15BoxOfficeMovies,getTop15FavoriteMovies,getActorById, getMovieByNameOrGenre,getMovieById}=require('../models/home.model');
 
 exports.home=async (req,res)=>{
     try{
@@ -45,9 +45,39 @@ exports.home=async (req,res)=>{
             }
             // console.log('length');
             // console.log(topboxoffice.length);
+
+
+            let resultTopFavorite=await getTop15FavoriteMovies();
+
+            // console.log(resultTopFavorite.length);
+
+            let groupview2={};
+
+            let topfavorite=[];
+            for (let i=0;i<resultTopFavorite.length;i=i+3){
+
+                groupview2.first_movie=resultTopFavorite[i];
+                groupview2.second_movie=resultTopFavorite[i+1];
+                groupview2.third_movie=resultTopFavorite[i+2];
+                groupview2.show_id=i/3;
+                if (i==0)
+                {
+                    groupview2.tempvalue=true;
+                }
+                else {
+                    groupview2.tempvalue=false;
+                }
+
+                topfavorite.push(groupview2);
+                groupview2={};
+            }
+
+            // console.log(topfavorite.length);
+
              res.render('index',
              {   results:resultTopRating,
-                 topboxoffice:topboxoffice
+                 topboxoffice:topboxoffice,
+                 topfavorite:topfavorite
             });
             
         
@@ -178,25 +208,37 @@ exports.detailActor=async (req,res)=>{
 exports.searchMovie=async (req,res)=>{
     try{
         const name=req.query.search_value;
-        console.log(name);
+        const page=req.params.page||1;
+        const itemsPerPage=4;
+
+
+        // console.log(name);
         let movies=await getMovieByNameOrGenre(name);
         // console.log(movies);
         
-        let total_results=movies.length;
 
         
         // console.log(movies.length);
-       // Log unique movie IDs
        const uniqueMovieIds = [...new Set(movies.map(movie => movie.id))];
     //    console.log(uniqueMovieIds);
 
        movies = removeDuplicates(movies, 'id');
+       let total_results=movies.length;
+        let totalResultPages = Math.floor((total_results/itemsPerPage) + ((total_results%itemsPerPage) == 0 ? 0 : 1));
+        let arrayResultPages = [];
+        for (let i = 1; i <= totalResultPages; i++) {
+            arrayResultPages.push(i);
+        }
 
+        movies=movies.slice(page * 4 - 4, page * 4);
     //    console.log(movies.length);
         res.render('searchmovie',
         {
             movies:movies,
-            total_results:total_results
+           current_page:parseInt(page),
+           total_results:total_results,
+           list_pages:arrayResultPages,
+           search_value:name
         });
     }
     catch(err){

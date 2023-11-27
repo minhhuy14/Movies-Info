@@ -90,6 +90,13 @@ module.exports = {
 
             await this.createTable('movies', movies_columns);
 
+            let favorite_movies_columns = `
+            id TEXT PRIMARY KEY,
+            title TEXT
+        `
+
+            await this.createTable('favorite_movies', favorite_movies_columns);
+
             let actor_columns = `
             movie_id TEXT,
             actor_id TEXT,
@@ -335,6 +342,7 @@ module.exports = {
 
 
                 await this.createTableAndImportDataToDatabase();
+                await this.importDataToFavoriteMovies();
                 console.log('Import data to database successfully');
                 console.log('Database is ready to use');
 
@@ -359,6 +367,7 @@ module.exports = {
         }
 
     },
+
     queryTop05RatingMovies: async function(){
         let db_connection = null;
     
@@ -392,6 +401,26 @@ module.exports = {
         finally{
             db_connection.done();
         }
+    },
+
+    queryTop15RanksFromFavoriteMovies: async function(){
+
+        let db_connection = null;
+
+        try {
+            db_connection = await newDB.connect();
+    
+            const query ='SELECT * FROM favorite_movies fv join movies m on fv.id=m.id WHERE imdb_rating IS NOT NULL ORDER BY imdb_rating DESC LIMIT 15';
+            const data = await db_connection.any(query);
+            // console.log(data);
+            return data;
+        } catch (error) {
+            throw(error);
+        } 
+        finally{
+            db_connection.done();
+        }
+
     },
     
       getMovieInfo: async function(m_id) {
@@ -488,6 +517,34 @@ module.exports = {
         const numericString = str.replace(/[^0-9.-]/g, '');
         const numericValue = parseFloat(numericString);
         return isNaN(numericValue) ? 0 : numericValue;
+      },
+
+      importDataToFavoriteMovies: async function(){
+
+        let db_connection = null;
+    
+        try {
+            db_connection = await newDB.connect();
+            const select =`SELECT id, title FROM movies WHERE year IS NOT NULL ORDER BY year DESC LIMIT 30`;
+            const data = await db_connection.any(select);
+
+            for (let i=0;i<data.length;i++){
+                const insert =`INSERT INTO favorite_movies values ($1,$2) ON CONFLICT DO NOTHING`;
+                const values = [
+                    data[i].id,
+                    data[i].title
+                ];
+                await db_connection.none(insert, values);
+            }
+            // console.log(data);
+            return data;
+        } catch (error) {
+            throw(error);
+        } 
+        finally{
+            db_connection.done();
+        }
+
       }
     
 }

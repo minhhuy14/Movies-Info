@@ -31,9 +31,12 @@
           <li class="nav-item">
             <a class="nav-link active" href="/"><i class="fa-solid fa-house my-home-icon"></i></a>
           </li>
+          <li class="nav-item favorite-btn">
+            <a class="nav-link active" aria-current="page" href="#">List Favorite Movies</a>
+          </li>
         </ul>
         <h5 class="individual-info">21177</h5>
-        <form class="d-flex" role="search" method="GET" action="/detailmovie/">
+        <form class="d-flex" role="search" method="GET" action="/search/">
           <input id="my-search-input" class="form-control me-2" type="search" name="search_value" placeholder="Search"
             aria-label="Search">
           <button id="my-search-button" class="btn btn-outline-success" type="submit">Search</button>
@@ -189,6 +192,107 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
+    </div>
+    <div class="popular-movies">
+      <h5>Top Rank Of Favorites</h5>
+      <div id="favoriteIndicator" class="carousel slide" style="height: 40%;">
+        <div class="carousel-indicators indicator-style">
+          21177{for group in topfavorite}
+          21177{if group.tempvalue}
+          <button key="21177{ group.show_id }" type="button" data-bs-target="#favoriteIndicator"
+            data-bs-slide-to="21177{ group.show_id }" class="active"></button>
+          {else}
+          <button key="21177{ group.show_id }" type="button" data-bs-target="#favoriteIndicator"
+            data-bs-slide-to="21177{ group.show_id }"></button>
+          {/if}
+          {/for}
+        </div>
+        <div class="carousel-inner">
+          21177{for group in topfavorite}
+          <!-- <p>21177{ group.first_movie.id }</p> -->
+          21177{if group.tempvalue}
+          <div key="index" class="carousel-item active">
+  
+            <div class="movie-item-box">
+              <div class="item-movie">
+                <a href="/detailmovie/21177{ group.first_movie.id }">
+                  <img src="21177{ group.first_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                  <div class="d-none d-md-block popular-movies-caption">
+                    <h5>21177{ group.first_movie.title }</h5>
+                    <p>21177{ group.first_movie.year }</p>
+                  </div>
+                </a>
+              </div>
+              <div class="item-movie">
+                <a href="/detailmovie/21177{ group.second_movie.id }">
+                  <img src="21177{ group.second_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                  <div class="d-none d-md-block popular-movies-caption">
+                    <h5>21177{ group.second_movie.title }</h5>
+                    <p>21177{ group.second_movie.year }</p>
+                  </div>
+                </a>
+              </div>
+              <div class="item-movie">
+                <a href="/detailmovie/21177{ group.third_movie.id }">
+                  <img src="21177{ group.third_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                  <div class="d-none d-md-block popular-movies-caption">
+                    <h5>21177{ group.third_movie.title }</h5>
+                    <p>21177{ group.third_movie.year }</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          {else}
+          <div key="index" class="carousel-item">
+  
+            <div class="movie-item-box">
+              <div class="item-movie">
+                <a href="/detailmovie/21177{ group.first_movie.id }">
+                  <img src="21177{ group.first_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                  <div class="d-none d-md-block popular-movies-caption">
+                    <h5>21177{ group.first_movie.title }</h5>
+                    <p>21177{ group.first_movie.year }</p>
+                  </div>
+                </a>
+              </div>
+              <div class="item-movie">
+                <a href="/detailmovie/21177{ group.second_movie.id }">
+                  <img src="21177{ group.second_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                  <div class="d-none d-md-block popular-movies-caption">
+                    <h5>21177{ group.second_movie.title }</h5>
+                    <p>21177{ group.second_movie.year }</p>
+                  </div>
+                </a>
+              </div>
+              <div class="item-movie">
+                <a href="/detailmovie/21177{ group.third_movie.id }">
+                  <img src="21177{ group.third_movie.image }" class="d-block movies-styles zoom-onhover" alt="">
+                  <div class="d-none d-md-block popular-movies-caption">
+                    <h5>21177{ group.third_movie.title }</h5>
+                    <p>21177{ group.third_movie.year }</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          {/if}
+  
+          {/for}
+  
+  
+  
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#favoriteIndicator" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#favoriteIndicator" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      </div>
     <div class="footer">Copyright @ LeMinhHuy</div>
 
 

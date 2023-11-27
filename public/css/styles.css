@@ -112,6 +112,11 @@ body{
     width: 200px;
 }
 
+.favorite-btn{
+    margin-left: 40px;
+    font-weight: 500;
+}
+
 .zoom-onhover:hover{
     transform: scale(2); 
 }
