@@ -1,4 +1,4 @@
-const {getTop05RatingMovies,getTop15BoxOfficeMovies,getTop15FavoriteMovies,getActorById, getMovieByNameOrGenre,getMovieById,getFavoriteMoviesList }=require('../models/home.model');
+const {getTop05RatingMovies,getTop15BoxOfficeMovies,getTop15FavoriteMovies,getActorById, getMovieByNameOrGenre,getMovieById,getFavoriteMoviesList,getActorInfoByNames }=require('../models/home.model');
 
 exports.home=async (req,res)=>{
     try{
@@ -291,7 +291,7 @@ exports.simpleSearch=async (req,res)=>{
             arrayResultPages.push(i);
         }
 
-        console.log(arrayResultPages);
+        // console.log(arrayResultPages);
         movies=movies.slice(page * 4 - 4, page * 4);
     //    console.log(movies.length);
         res.render('searchmovie',
@@ -306,5 +306,61 @@ exports.simpleSearch=async (req,res)=>{
     catch(err){
         console.log(err);
         res.status(500).send('Error while search movie by name');
+    }
+}
+
+exports.simpleSearchActor=async (req,res)=>{
+    try{ const name=req.query.search_value;
+        const page=req.params.page||1;
+        const itemsPerPage=4;
+        let actors=await getActorInfoByNames(name);
+        // console.log(actors);
+        let total_results=actors.length;
+        let totalResultPages = Math.floor((total_results/itemsPerPage) + ((total_results%itemsPerPage) == 0 ? 0 : 1));
+        let arrayResultPages = [];
+        for (let i = 1; i <= totalResultPages; i++) {
+            arrayResultPages.push(i);
+        }
+        actors=actors.slice(page * 4 - 4, page * 4);
+        res.render('search_actor',
+                {
+                    actors:actors,
+                    search_value:name,
+                    current_page:parseInt(page),
+                    list_pages:arrayResultPages,
+                    total_results:total_results
+                })
+
+    }catch(err){
+        console.log(err);
+        res.status(500).send('Error while search actor by name');
+    }
+}
+
+exports.searchActor=async (req,res)=>{
+    try{ const name=req.params.name;
+        const page=req.params.page||1;
+        const itemsPerPage=4;
+        let actors=await getActorInfoByNames(name);
+        // console.log(actors);
+        let total_results=actors.length;
+        let totalResultPages = Math.floor((total_results/itemsPerPage) + ((total_results%itemsPerPage) == 0 ? 0 : 1));
+        let arrayResultPages = [];
+        for (let i = 1; i <= totalResultPages; i++) {
+            arrayResultPages.push(i);
+        }
+        actors=actors.slice(page * 4 - 4, page * 4);
+        res.render('search_actor',
+                {
+                    actors:actors,
+                    search_value:name,
+                    current_page:parseInt(page),
+                    list_pages:arrayResultPages,
+                    total_results:total_results
+                })
+
+    }catch(err){
+        console.log(err);
+        res.status(500).send('Error while search actor by name');
     }
 }

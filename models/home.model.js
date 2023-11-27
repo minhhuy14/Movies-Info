@@ -63,6 +63,16 @@ class QueryMovies{
             throw error;
         }
     }
+    static async getActorInfoByNames(names){
+        try {
+            let data = await db.getActorInfoByName(names);
+            
+            return data;
+
+        } catch (error) {
+            throw error;
+        }
+    }
     static async getFavoriteMoviesList()
     {
         try {

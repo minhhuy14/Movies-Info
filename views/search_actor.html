@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21120177-BTCN03</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://kit.fontawesome.com/f14e332891.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="header">
+        <p class="id-student-info">21120177</p>
+        <h3 class="header-title">Movies Infomation</h3>
+        <div class="form-check form-switch switch-button">
+            <input class="form-check-input darkmode-btn" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+            <label class="form-check-label darkmode-icon" for="flexSwitchCheckChecked"><i
+                    class="fa-duotone fa-sun-bright"></i>Dark Mode</label>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/"><i class="fa-solid fa-house my-home-icon"></i></a>
+                    </li>
+                </ul>
+                <h5 class="individual-info">
+                    <a class="nav-link active" aria-current="page" href="/myfavoritemovies">21177</a>
+                  </h5>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="my-search-option" id="my-search-actors">
+                    <label class="form-check-label" for="my-search-option">
+                      Search Actors
+                    </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="my-search-option" id="my-search-movies" checked>
+                  <label class="form-check-label" for="my-search-option">
+                    Search Movies
+                  </label>
+                </div> 
+                <form class="d-flex" role="search" method="GET" action="/search/">
+                    <input id="my-search-input" class="form-control me-2" type="search" name="search_value"
+                        placeholder="Search" aria-label="Search">
+                    <button id="my-search-button" class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+   <table class="table table-bordered border-secondary table-hover table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Cast ID</th>
+            <th>Name</th> 
+            <th>Awards</th>
+            <th>Roles</th>
+            <th>Summary</th>
+        </tr>
+    </thead>
+    <tbody class="table-striped">
+        21177{for at in actors}
+        <tr>
+            
+            <th scope="row"><a href="/detailactor/21177{ at.id }">21177{ at.id }</a></th>
+            <td>21177{ at.name }</td>
+            <td>21177{ at.awards }</td>
+            <td>21177{ at.role }</td>
+            <td>21177{ at.summary }</td>
+        </tr>
+        {/for}
+        <h5>Result items:  21177{ total_results }</h5>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                21177{for p in list_pages}
+                21177{if p == 21177{ current_page }
+                <li class="page-item-result active">
+                    <a class="page-link" href="/search_actor/21177{ search_value }/page/21177{ p }">21177{ p }</a>
+                </li>
+                {else}
+                <li class="page-item-result">
+                    <a class="page-link" href="/search_actor/21177{ search_value }/page/21177{ p }">21177{ p }</a>
+                </li>
+                {/if}
+                {/for}
+    
+            </ul>
+        </nav>
+    </tbody>
+   </table>
+    <div class="footer">Copyright @ LeMinhHuy</div>
+
+
+    <script src="/js/header.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/navbar.js"></script>
+</body>
+
+</html>

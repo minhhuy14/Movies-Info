@@ -61,7 +61,7 @@ module.exports = {
 
     createTableAndImportDataToDatabase: async function () {
         try {
-            const results = await fs.readFile(`./db/${process.env.JSON_FILE}`, { encoding: 'utf8' });
+            const results = await fs.readFile(`./data/${process.env.JSON_FILE}`, { encoding: 'utf8' });
             let data = JSON.parse(results);
 
             // console.log(data.Movies[0].id);
@@ -428,7 +428,7 @@ module.exports = {
         try {
             db_connection = await newDB.connect();
     
-            const query ='SELECT * FROM favorite_movies fv join movies m on fv.id=m.id';
+            const query ='SELECT * FROM favorite_movies fv join movies m on fv.id=m.id ORDER BY m.imdb_rating DESC';
             const data = await db_connection.any(query);
             return data;
         } catch (error) {
@@ -494,6 +494,36 @@ module.exports = {
             const query_in_movies = `SELECT * FROM cast_in_movies cm JOIN movies m ON cm.movie_id = m.id WHERE cm.cast_id = $1`;
             const movieList = await db_connection.any(query_in_movies, [c_id]);
             dataObj.movieList = movieList;
+            // console.log('getActorInfo');
+            // console.log(movieList);   
+            
+            return dataObj;
+        } catch (error) {
+            throw(error);
+        } 
+        finally{
+            db_connection.done();
+        }
+    },
+    getActorInfoByName: async function(name) {
+        let db_connection = null;
+    
+        try {
+            db_connection = await newDB.connect();
+            // let dataObj={
+            //     generalData:{},
+            //     movieList:[]
+            // };
+            // const query_in_names =`SELECT * FROM names WHERE name LIKE '%${name}%' `;
+            // const general = await db_connection.any(query_in_names, [c_id]);
+            // // console.log(data);
+            // dataObj.generalData = general;
+    
+            const query_in_movies = `SELECT * FROM cast_in_movies cm JOIN movies m 
+                                    ON cm.movie_id = m.id 
+                                    JOIN names n ON n.id=cm.cast_id WHERE n.name LIKE '%${name}%'`;
+            const dataObj = await db_connection.any(query_in_movies);
+            // dataObj.movieList = movieList;
             // console.log('getActorInfo');
             // console.log(movieList);   
             

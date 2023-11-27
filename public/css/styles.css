@@ -202,3 +202,7 @@ body{
     font-weight: 600;
     margin-bottom: 20px;
 }
+
+.form-check-label{
+    margin-right: 12px;
+}
