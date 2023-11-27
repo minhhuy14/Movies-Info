@@ -74,13 +74,13 @@
         </li> -->
                 <!-- <p>21177{ current_review_page }</p> -->
                 21177{for p in list_pages}
-                21177{if p == 21177{current_page}
-                <li class="page-item-result active" data-valsearch="21177{ search_value }">
-                    <a class="page-link" href="">21177{ p }</a>
+                21177{if p == 21177{ current_page }
+                <li class="page-item-result active">
+                    <a class="page-link" href="/search/21177{ search_value }/page/21177{ p }">21177{ p }</a>
                 </li>
                 {else}
-                <li class="page-item-result" data-valsearch="21177{ search_value }">
-                    <a class="page-link" href="">21177{ p }</a>
+                <li class="page-item-result">
+                    <a class="page-link" href="/search/21177{ search_value }/page/21177{ p }">21177{ p }</a>
                 </li>
                 {/if}
                 {/for}

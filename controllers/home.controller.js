@@ -207,7 +207,7 @@ exports.detailActor=async (req,res)=>{
 
 exports.searchMovie=async (req,res)=>{
     try{
-        const name=req.query.search_value;
+        const name=req.params.name;
         const page=req.params.page||1;
         const itemsPerPage=4;
 
@@ -265,4 +265,46 @@ function removeDuplicates(arr, prop) {
     return arr.filter((movie, index, self) =>
         index === self.findIndex((m) => m[prop] === movie[prop])
     );
+}
+
+exports.simpleSearch=async (req,res)=>{
+    try{ const name=req.query.search_value;
+        const page=req.params.page||1;
+        const itemsPerPage=4;
+
+
+        // console.log(name);
+        let movies=await getMovieByNameOrGenre(name);
+        // console.log(movies);
+        
+
+        
+        // console.log(movies.length);
+       const uniqueMovieIds = [...new Set(movies.map(movie => movie.id))];
+    //    console.log(uniqueMovieIds);
+
+       movies = removeDuplicates(movies, 'id');
+       let total_results=movies.length;
+        let totalResultPages = Math.floor((total_results/itemsPerPage) + ((total_results%itemsPerPage) == 0 ? 0 : 1));
+        let arrayResultPages = [];
+        for (let i = 1; i <= totalResultPages; i++) {
+            arrayResultPages.push(i);
+        }
+
+        console.log(arrayResultPages);
+        movies=movies.slice(page * 4 - 4, page * 4);
+    //    console.log(movies.length);
+        res.render('searchmovie',
+        {
+            movies:movies,
+           current_page:parseInt(page),
+           total_results:total_results,
+           list_pages:arrayResultPages,
+           search_value:name
+        });
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).send('Error while search movie by name');
+    }
 }
