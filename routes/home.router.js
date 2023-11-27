@@ -13,6 +13,8 @@ router.get('/detailmovie/:movie_id/reviews/page/:page', homeController.getReview
 
 router.get('/search',homeController.searchMovie);
 
+router.get('/myfavoritemovies',homeController.myFavorite);
+
 
 
 module.exports = router;

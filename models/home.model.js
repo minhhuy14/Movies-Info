@@ -63,6 +63,18 @@ class QueryMovies{
             throw error;
         }
     }
+    static async getFavoriteMoviesList()
+    {
+        try {
+            let data = await db.queryListFavoriteMovies();
+            
+            return data;
+        }       
+        catch(error)
+        {
+            throw error;
+        }
+    }
 }
 
 module.exports = QueryMovies;

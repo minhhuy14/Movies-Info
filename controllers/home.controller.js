@@ -1,4 +1,4 @@
-const {getTop05RatingMovies,getTop15BoxOfficeMovies,getTop15FavoriteMovies,getActorById, getMovieByNameOrGenre,getMovieById}=require('../models/home.model');
+const {getTop05RatingMovies,getTop15BoxOfficeMovies,getTop15FavoriteMovies,getActorById, getMovieByNameOrGenre,getMovieById,getFavoriteMoviesList }=require('../models/home.model');
 
 exports.home=async (req,res)=>{
     try{
@@ -247,6 +247,20 @@ exports.searchMovie=async (req,res)=>{
     }
 }
 
+exports.myFavorite=async (req,res)=>{
+    try{
+        let movies=await getFavoriteMoviesList();
+        // console.log(movies);
+        res.render('myfavoritemovies',
+        {
+            movies:movies
+        });
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).send('Error while get favorite movies');
+    }
+}
 function removeDuplicates(arr, prop) {
     return arr.filter((movie, index, self) =>
         index === self.findIndex((m) => m[prop] === movie[prop])

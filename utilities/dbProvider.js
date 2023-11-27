@@ -64,7 +64,7 @@ module.exports = {
             const results = await fs.readFile(`./db/${process.env.JSON_FILE}`, { encoding: 'utf8' });
             let data = JSON.parse(results);
 
-            console.log(data.Movies[0].id);
+            // console.log(data.Movies[0].id);
 
             let movies_columns = `
             id TEXT PRIMARY KEY,
@@ -422,6 +422,22 @@ module.exports = {
         }
 
     },
+    queryListFavoriteMovies: async function(){
+        let db_connection = null;
+    
+        try {
+            db_connection = await newDB.connect();
+    
+            const query ='SELECT * FROM favorite_movies fv join movies m on fv.id=m.id';
+            const data = await db_connection.any(query);
+            return data;
+        } catch (error) {
+            throw(error);
+        } 
+        finally{
+            db_connection.done();
+        }
+    },
     
       getMovieInfo: async function(m_id) {
         let db_connection = null;
@@ -525,7 +541,9 @@ module.exports = {
     
         try {
             db_connection = await newDB.connect();
-            const select =`SELECT id, title FROM movies WHERE year IS NOT NULL ORDER BY year DESC LIMIT 30`;
+            const select =`SELECT id, title FROM movies 
+            WHERE year IS NOT NULL AND runtime IS NOT NULL 
+            AND imdb_rating IS NOT NULL ORDER BY year DESC LIMIT 30`;
             const data = await db_connection.any(select);
 
             for (let i=0;i<data.length;i++){
