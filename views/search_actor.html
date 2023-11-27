@@ -32,19 +32,19 @@
                 </ul>
                 <h5 class="individual-info">
                     <a class="nav-link active" aria-current="page" href="/myfavoritemovies">21177</a>
-                  </h5>
-                  <div class="form-check">
+                </h5>
+                <div class="form-check">
                     <input class="form-check-input" type="radio" name="my-search-option" id="my-search-actors">
                     <label class="form-check-label" for="my-search-option">
-                      Search Actors
+                        Search Actors
                     </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="my-search-option" id="my-search-movies" checked>
-                  <label class="form-check-label" for="my-search-option">
-                    Search Movies
-                  </label>
-                </div> 
+                    <input class="form-check-input" type="radio" name="my-search-option" id="my-search-movies" checked>
+                    <label class="form-check-label" for="my-search-option">
+                        Search Movies
+                    </label>
+                </div>
                 <form class="d-flex" role="search" method="GET" action="/search/">
                     <input id="my-search-input" class="form-control me-2" type="search" name="search_value"
                         placeholder="Search" aria-label="Search">
@@ -54,46 +54,46 @@
         </div>
     </nav>
 
-   <table class="table table-bordered border-secondary table-hover table-striped">
-    <thead class="table-dark">
-        <tr>
-            <th>Cast ID</th>
-            <th>Name</th> 
-            <th>Awards</th>
-            <th>Roles</th>
-            <th>Summary</th>
-        </tr>
-    </thead>
-    <tbody class="table-striped">
-        21177{for at in actors}
-        <tr>
-            
-            <th scope="row"><a href="/detailactor/21177{ at.id }">21177{ at.id }</a></th>
-            <td>21177{ at.name }</td>
-            <td>21177{ at.awards }</td>
-            <td>21177{ at.role }</td>
-            <td>21177{ at.summary }</td>
-        </tr>
-        {/for}
-        <h5>Result items:  21177{ total_results }</h5>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                21177{for p in list_pages}
-                21177{if p == 21177{ current_page }
-                <li class="page-item-result active">
-                    <a class="page-link" href="/search_actor/21177{ search_value }/page/21177{ p }">21177{ p }</a>
-                </li>
-                {else}
-                <li class="page-item-result">
-                    <a class="page-link" href="/search_actor/21177{ search_value }/page/21177{ p }">21177{ p }</a>
-                </li>
-                {/if}
-                {/for}
-    
-            </ul>
-        </nav>
-    </tbody>
-   </table>
+    <table class="table table-bordered border-secondary table-hover table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Cast ID</th>
+                <th>Name</th>
+                <th>Awards</th>
+                <th>Roles</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody class="table-striped">
+            21177{for at in actors}
+            <tr>
+
+                <th scope="row"><a href="/detailactor/21177{ at.id }">21177{ at.id }</a></th>
+                <td>21177{ at.name }</td>
+                <td>21177{ at.awards }</td>
+                <td>21177{ at.role }</td>
+                <td>21177{ at.summary }</td>
+            </tr>
+            {/for}
+            <h5>Result items: 21177{ total_results }</h5>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    21177{for p in list_pages}
+                    21177{if p == 21177{ current_page }
+                    <li class="page-item-result active">
+                        <a class="page-link" href="/search_actor/21177{ search_value }/page/21177{ p }">21177{ p }</a>
+                    </li>
+                    {else}
+                    <li class="page-item-result">
+                        <a class="page-link" href="/search_actor/21177{ search_value }/page/21177{ p }">21177{ p }</a>
+                    </li>
+                    {/if}
+                    {/for}
+
+                </ul>
+            </nav>
+        </tbody>
+    </table>
     <div class="footer">Copyright @ LeMinhHuy</div>
 
 

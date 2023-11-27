@@ -368,157 +368,149 @@ module.exports = {
 
     },
 
-    queryTop05RatingMovies: async function(){
+    queryTop05RatingMovies: async function () {
         let db_connection = null;
-    
+
         try {
             db_connection = await newDB.connect();
-    
-            const query ='SELECT * FROM movies WHERE imdb_rating IS NOT NULL ORDER BY imdb_rating DESC LIMIT 5';
+
+            const query = 'SELECT * FROM movies WHERE imdb_rating IS NOT NULL ORDER BY imdb_rating DESC LIMIT 5';
             const data = await db_connection.any(query);
             // console.log(data);
             return data;
         } catch (error) {
-            throw(error);
-        } 
-        finally{
+            throw (error);
+        }
+        finally {
             db_connection.done();
         }
     },
-    queryTop15BoxOfficeMovies: async function(){
+    queryTop15BoxOfficeMovies: async function () {
         let db_connection = null;
-    
+
         try {
             db_connection = await newDB.connect();
-    
-            const query ='SELECT * FROM movies WHERE box_office IS NOT NULL ORDER BY box_office DESC LIMIT 15';
+
+            const query = 'SELECT * FROM movies WHERE box_office IS NOT NULL ORDER BY box_office DESC LIMIT 15';
             const data = await db_connection.any(query);
             // console.log(data);
             return data;
         } catch (error) {
-            throw(error);
-        } 
-        finally{
+            throw (error);
+        }
+        finally {
             db_connection.done();
         }
     },
 
-    queryTop15RanksFromFavoriteMovies: async function(){
+    queryTop15RanksFromFavoriteMovies: async function () {
 
         let db_connection = null;
 
         try {
             db_connection = await newDB.connect();
-    
-            const query ='SELECT * FROM favorite_movies fv join movies m on fv.id=m.id WHERE imdb_rating IS NOT NULL ORDER BY imdb_rating DESC LIMIT 15';
+
+            const query = 'SELECT * FROM favorite_movies fv join movies m on fv.id=m.id WHERE imdb_rating IS NOT NULL ORDER BY imdb_rating DESC LIMIT 15';
             const data = await db_connection.any(query);
             // console.log(data);
             return data;
         } catch (error) {
-            throw(error);
-        } 
-        finally{
+            throw (error);
+        }
+        finally {
             db_connection.done();
         }
 
     },
-    queryListFavoriteMovies: async function(){
+    queryListFavoriteMovies: async function () {
         let db_connection = null;
-    
+
         try {
             db_connection = await newDB.connect();
-    
-            const query ='SELECT * FROM favorite_movies fv join movies m on fv.id=m.id ORDER BY m.imdb_rating DESC';
+
+            const query = 'SELECT * FROM favorite_movies fv join movies m on fv.id=m.id ORDER BY m.imdb_rating DESC';
             const data = await db_connection.any(query);
             return data;
         } catch (error) {
-            throw(error);
-        } 
-        finally{
+            throw (error);
+        }
+        finally {
             db_connection.done();
         }
     },
-    
-      getMovieInfo: async function(m_id) {
+
+    getMovieInfo: async function (m_id) {
         let db_connection = null;
-    
+
         try {
             db_connection = await newDB.connect();
-            let dataObj={
-                generalData:{},
-                castList:[],
-                reviewList:[],
-                genreList:[]
+            let dataObj = {
+                generalData: {},
+                castList: [],
+                reviewList: [],
+                genreList: []
             };
-            const query_in_movies =`SELECT * FROM movies WHERE id=$1 `;
+            const query_in_movies = `SELECT * FROM movies WHERE id=$1 `;
             const general = await db_connection.any(query_in_movies, [m_id]);
             // console.log(data);
             dataObj.generalData = general;
-    
+
             const query_in_casts = `SELECT * FROM actors at JOIN names n ON at.actor_id = n.id WHERE at.movie_id = $1`;
             const castsList = await db_connection.any(query_in_casts, [m_id]);
             dataObj.castList = castsList;
-    
-            const query_in_reviews=`SELECT * FROM reviews WHERE movie_id=$1 `;
-            const reviewList=await db_connection.any(query_in_reviews,[m_id]);
-    
+
+            const query_in_reviews = `SELECT * FROM reviews WHERE movie_id=$1 `;
+            const reviewList = await db_connection.any(query_in_reviews, [m_id]);
+
             dataObj.reviewList = reviewList;
 
-            const query_in_genres=`SELECT * FROM genres WHERE movie_id=$1 `;
-            const genreList=await db_connection.any(query_in_genres,[m_id]);
+            const query_in_genres = `SELECT * FROM genres WHERE movie_id=$1 `;
+            const genreList = await db_connection.any(query_in_genres, [m_id]);
             dataObj.genreList = genreList;
-            
-            
+
+
             return dataObj;
         } catch (error) {
-            throw(error);
-        } 
-        finally{
+            throw (error);
+        }
+        finally {
             db_connection.done();
         }
     },
-    getActorInfo: async function(c_id) {
+    getActorInfo: async function (c_id) {
         let db_connection = null;
-    
+
         try {
             db_connection = await newDB.connect();
-            let dataObj={
-                generalData:{},
-                movieList:[]
+            let dataObj = {
+                generalData: {},
+                movieList: []
             };
-            const query_in_names =`SELECT * FROM names WHERE id=$1 `;
+            const query_in_names = `SELECT * FROM names WHERE id=$1 `;
             const general = await db_connection.any(query_in_names, [c_id]);
             // console.log(data);
             dataObj.generalData = general;
-    
+
             const query_in_movies = `SELECT * FROM cast_in_movies cm JOIN movies m ON cm.movie_id = m.id WHERE cm.cast_id = $1`;
             const movieList = await db_connection.any(query_in_movies, [c_id]);
             dataObj.movieList = movieList;
             // console.log('getActorInfo');
             // console.log(movieList);   
-            
+
             return dataObj;
         } catch (error) {
-            throw(error);
-        } 
-        finally{
+            throw (error);
+        }
+        finally {
             db_connection.done();
         }
     },
-    getActorInfoByName: async function(name) {
+    getActorInfoByName: async function (name) {
         let db_connection = null;
-    
+
         try {
             db_connection = await newDB.connect();
-            // let dataObj={
-            //     generalData:{},
-            //     movieList:[]
-            // };
-            // const query_in_names =`SELECT * FROM names WHERE name LIKE '%${name}%' `;
-            // const general = await db_connection.any(query_in_names, [c_id]);
-            // // console.log(data);
-            // dataObj.generalData = general;
-    
+
             const query_in_movies = `SELECT * FROM cast_in_movies cm JOIN movies m 
                                     ON cm.movie_id = m.id 
                                     JOIN names n ON n.id=cm.cast_id WHERE n.name LIKE '%${name}%'`;
@@ -526,58 +518,58 @@ module.exports = {
             // dataObj.movieList = movieList;
             // console.log('getActorInfo');
             // console.log(movieList);   
-            
+
             return dataObj;
         } catch (error) {
-            throw(error);
-        } 
-        finally{
+            throw (error);
+        }
+        finally {
             db_connection.done();
         }
     },
-    getMovieByNameOrGenre: async function(query){
+    getMovieByNameOrGenre: async function (query) {
         let db_connection = null;
-    
+
         try {
             db_connection = await newDB.connect();
-            const query_in_movies =`SELECT * FROM movies m join genres g on m.id=g.movie_id WHERE m.full_title LIKE '%${query}%' or g.genre LIKE '%${query}%'`;
+            const query_in_movies = `SELECT * FROM movies m join genres g on m.id=g.movie_id WHERE m.full_title LIKE '%${query}%' or g.genre LIKE '%${query}%'`;
             const data = await db_connection.any(query_in_movies);
             // console.log(data);
             return data;
         } catch (error) {
-            throw(error);
-        } 
-        finally{
+            throw (error);
+        }
+        finally {
             db_connection.done();
         }
-    
-    
+
+
     },
 
     //Use to convert box office value to number
-    convertToNumber: function(str) {
+    convertToNumber: function (str) {
 
         if (str.trim().toUpperCase() == 'NA') {
-          return 0;
+            return 0;
         }
         const numericString = str.replace(/[^0-9.-]/g, '');
         const numericValue = parseFloat(numericString);
         return isNaN(numericValue) ? 0 : numericValue;
-      },
+    },
 
-      importDataToFavoriteMovies: async function(){
+    importDataToFavoriteMovies: async function () {
 
         let db_connection = null;
-    
+
         try {
             db_connection = await newDB.connect();
-            const select =`SELECT id, title FROM movies 
+            const select = `SELECT id, title FROM movies 
             WHERE year IS NOT NULL AND runtime IS NOT NULL 
             AND imdb_rating IS NOT NULL ORDER BY year DESC LIMIT 30`;
             const data = await db_connection.any(select);
 
-            for (let i=0;i<data.length;i++){
-                const insert =`INSERT INTO favorite_movies values ($1,$2) ON CONFLICT DO NOTHING`;
+            for (let i = 0; i < data.length; i++) {
+                const insert = `INSERT INTO favorite_movies values ($1,$2) ON CONFLICT DO NOTHING`;
                 const values = [
                     data[i].id,
                     data[i].title
@@ -587,12 +579,12 @@ module.exports = {
             // console.log(data);
             return data;
         } catch (error) {
-            throw(error);
-        } 
-        finally{
+            throw (error);
+        }
+        finally {
             db_connection.done();
         }
 
-      }
-    
+    }
+
 }

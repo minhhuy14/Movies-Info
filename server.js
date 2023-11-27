@@ -1,18 +1,17 @@
 require('dotenv').config();
 
-const fs=require('fs');
-const express=require('express');
+const fs = require('fs');
+const express = require('express');
 
-const path=require('path');
-const db=require('./utilities/dbProvider.js');
-
+const path = require('path');
+const db = require('./utilities/dbProvider.js');
 
 
 const PORT = process.env.PORT || 21177;
 
 const app = express();
-app.use(express.urlencoded({extended:true}));
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 
@@ -47,7 +46,7 @@ const myTemplateEngine = require('./21177.js');
 // let output = engine.render('myLoopTemplate', { items:arr});
 
 // console.log(output);
- // Should print "<p>Item 1</p><p>Item 2</p><p>Item 3</p>"
+// Should print "<p>Item 1</p><p>Item 2</p><p>Item 3</p>"
 
 
 
@@ -56,34 +55,26 @@ const myTemplateEngine = require('./21177.js');
 // app.use('/',homeRouter);
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'html')
-;
+    ;
 app.engine('html', (filePath, options, callback) => {
-    fs.readFile(filePath, {encoding: 'utf-8'} , (error,content)=>{
-        if(error) {
+    fs.readFile(filePath, { encoding: 'utf-8' }, (error, content) => {
+        if (error) {
             callback(error);
         }
 
-
         let engine = new myTemplateEngine();
         rendered = engine.processTemplate(content.toString(), options);
-        callback(null,rendered);
+        callback(null, rendered);
     })
 });
 
-
-
 db.initDatabase();
 
+const homeRouter = require('./routes/home.router');
 
+app.use('/', homeRouter);
 
-const homeRouter=require('./routes/home.router');
-
-app.use('/',homeRouter);
-
-
-
-
-app.listen(PORT,()=>{
+app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 

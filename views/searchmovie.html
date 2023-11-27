@@ -32,19 +32,19 @@
                 </ul>
                 <h5 class="individual-info">
                     <a class="nav-link active" aria-current="page" href="/myfavoritemovies">21177</a>
-                  </h5>
-                  <div class="form-check">
+                </h5>
+                <div class="form-check">
                     <input class="form-check-input" type="radio" name="my-search-option" id="my-search-actors">
                     <label class="form-check-label" for="my-search-option">
-                      Search Actors
+                        Search Actors
                     </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="my-search-option" id="my-search-movies" checked>
-                  <label class="form-check-label" for="my-search-option">
-                    Search Movies
-                  </label>
-                </div> 
+                    <input class="form-check-input" type="radio" name="my-search-option" id="my-search-movies" checked>
+                    <label class="form-check-label" for="my-search-option">
+                        Search Movies
+                    </label>
+                </div>
                 <form class="d-flex" role="search" method="GET" action="/search/">
                     <input id="my-search-input" class="form-control me-2" type="search" name="search_value"
                         placeholder="Search" aria-label="Search">
@@ -64,26 +64,22 @@
         </div>
         {else}
         21177{for mv in movies}
-        <div class="card search-movie"> 
-        <a href="/detailmovie/21177{ mv.id }">
-            <img src="21177{ mv.image }"  class="card-img-top" alt="">
-        </a>
-        <div class="card-body">
-            <h5 class="card-title">21177{ mv.title }</h5>
-            <p class="card-title">21177{ mv.year }</p>
-            <p class="card-title">Rating: 21177{ mv.imdb_rating }</p>
-            <p class="card-title">Duration time: 21177{ mv.runtime }</p>
-        </div>   
+        <div class="card search-movie">
+            <a href="/detailmovie/21177{ mv.id }">
+                <img src="21177{ mv.image }" class="card-img-top" alt="">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">21177{ mv.title }</h5>
+                <p class="card-title">21177{ mv.year }</p>
+                <p class="card-title">Rating: 21177{ mv.imdb_rating }</p>
+                <p class="card-title">Duration time: 21177{ mv.runtime }</p>
+            </div>
         </div>
         {/for}
-        <h5>Result items:  21177{ total_results }</h5>
+        <h5>Result items: 21177{ total_results }</h5>
         {/if}
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <!-- <li class="page-item-result previous-item {{#if (isFirstPage currentReviewPage)}}disabled{{/if}}" data-movieId="21177{ movie_id }" data-valReviewPage="{{subtract currentReviewPage 1}}">
-            <a class="page-link" href="">Previous</a>
-        </li> -->
-                <!-- <p>21177{ current_review_page }</p> -->
                 21177{for p in list_pages}
                 21177{if p == 21177{ current_page }
                 <li class="page-item-result active">
@@ -95,7 +91,7 @@
                 </li>
                 {/if}
                 {/for}
-    
+
             </ul>
         </nav>
     </div>

@@ -32,19 +32,19 @@
                 </ul>
                 <h5 class="individual-info">
                     <a class="nav-link active" aria-current="page" href="/myfavoritemovies">21177</a>
-                  </h5>
-                  <div class="form-check">
+                </h5>
+                <div class="form-check">
                     <input class="form-check-input" type="radio" name="my-search-option" id="my-search-actors">
                     <label class="form-check-label" for="my-search-option">
-                      Search Actors
+                        Search Actors
                     </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="my-search-option" id="my-search-movies" checked>
-                  <label class="form-check-label" for="my-search-option">
-                    Search Movies
-                  </label>
-                </div> 
+                    <input class="form-check-input" type="radio" name="my-search-option" id="my-search-movies" checked>
+                    <label class="form-check-label" for="my-search-option">
+                        Search Movies
+                    </label>
+                </div>
                 <form class="d-flex" role="search" method="GET" action="/search/">
                     <input id="my-search-input" class="form-control me-2" type="search" name="search_value"
                         placeholder="Search" aria-label="Search">
@@ -55,31 +55,31 @@
     </nav>
 
 
-   <h3 class="heading-favorite"><i>My Favorite Movies List</i></h3>
+    <h3 class="heading-favorite"><i>My Favorite Movies List</i></h3>
 
-   <table class="table table-bordered border-secondary table-hover table-striped">
-    <thead class="table-dark">
-        <tr>
-            <th>Movie ID</th>
-            <th>Full Title</th> 
-            <th>Release Year</th>
-            <th>Rating</th>
-            <th>Duration Time</th>
-        </tr>
-    </thead>
-    <tbody class="table-striped">
-        21177{for mv in movies}
-        <tr>
-            
-            <th scope="row"><a href="/detailmovie/21177{ mv.id }">21177{ mv.id }</a></th>
-            <td>21177{ mv.full_title }</td>
-            <td>21177{ mv.year }</td>
-            <td>21177{ mv.imdb_rating }</td>
-            <td>21177{ mv.runtime }</td>
-        </tr>
-        {/for}
-    </tbody>
-   </table>
+    <table class="table table-bordered border-secondary table-hover table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Movie ID</th>
+                <th>Full Title</th>
+                <th>Release Year</th>
+                <th>Rating</th>
+                <th>Duration Time</th>
+            </tr>
+        </thead>
+        <tbody class="table-striped">
+            21177{for mv in movies}
+            <tr>
+
+                <th scope="row"><a href="/detailmovie/21177{ mv.id }">21177{ mv.id }</a></th>
+                <td>21177{ mv.full_title }</td>
+                <td>21177{ mv.year }</td>
+                <td>21177{ mv.imdb_rating }</td>
+                <td>21177{ mv.runtime }</td>
+            </tr>
+            {/for}
+        </tbody>
+    </table>
     <div class="footer">Copyright @ LeMinhHuy</div>
 
 
